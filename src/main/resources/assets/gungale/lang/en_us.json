@@ -1,0 +1,10 @@
+{
+  "item.gungale.p9_pistol": "P9 Pistol",
+  "item.gungale.smg_ammo": "SMG Ammo (9mm)",
+  "item.gungale.body_armor_3": "Body Armor (Lv 3)",
+  "itemGroup.gungale": "GunGale",
+  "key.fire": "Fire",
+  "key.reload": "Reload",
+  "key.categories.gungale": "GunGale",
+  "death.attack.gunShot.player": "%1$s was shot by %2$s"
+}

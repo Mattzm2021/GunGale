@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="All rights reserved"
+[[mods]]
+modId="gungale"
+version="${file.jarVersion}"
+displayName="GunGale"
+logoFile="gungale.png"
+credits="GunGale Test Group Members"
+authors="Matthew Tseng"
+description='''
+
+    This is a mod filled with guns
+
+'''
+[[dependencies.gungale]]
+    modId="forge"
+    mandatory=true
+    versionRange="[36,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.gungale]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.5,1.17)"
+    ordering="NONE"
+    side="BOTH"
