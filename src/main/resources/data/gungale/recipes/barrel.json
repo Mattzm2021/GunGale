@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "gungale:threaded_iron_ingot"
+    }
+  },
+  "result": {
+    "item": "gungale:barrel"
+  }
+}

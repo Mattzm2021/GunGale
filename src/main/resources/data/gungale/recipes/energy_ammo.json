@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "## ",
+    "#W#",
+    "## "
+  ],
+  "key": {
+    "#": {
+      "item": "gungale:energy_storage"
+    },
+    "W": {
+      "item": "gungale:compressed_redstone"
+    }
+  },
+  "result": {
+    "item": "gungale:energy_ammo",
+    "count": 30
+  }
+}

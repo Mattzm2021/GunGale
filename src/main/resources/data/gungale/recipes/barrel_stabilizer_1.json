@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#X#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:iron_ingot"
+    },
+    "X": {
+      "item": "gungale:saltpeter"
+    }
+  },
+  "result": {
+    "item": "gungale:barrel_stabilizer_1"
+  }
+}

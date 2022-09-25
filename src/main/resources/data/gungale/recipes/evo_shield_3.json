@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "XWX",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "gungale:compressed_redstone"
+    },
+    "W": {
+      "item": "gungale:evo_shield_2"
+    },
+    "X": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "gungale:evo_shield_3"
+  }
+}

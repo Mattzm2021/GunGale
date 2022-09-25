@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X#X",
+    "XWX",
+    " # "
+  ],
+  "key": {
+    "#": {
+      "item": "gungale:steel_ingot"
+    },
+    "W": {
+      "item": "minecraft:glass_bottle"
+    },
+    "X": {
+      "item": "minecraft:stone"
+    }
+  },
+  "result": {
+    "item": "gungale:syringe",
+    "count": 2
+  }
+}

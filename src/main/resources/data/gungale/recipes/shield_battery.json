@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X#X",
+    "#W#",
+    "X#X"
+  ],
+  "key": {
+    "#": {
+      "item": "gungale:steel_ingot"
+    },
+    "W": {
+      "item": "gungale:energy_storage"
+    },
+    "X": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "item": "gungale:shield_battery"
+  }
+}

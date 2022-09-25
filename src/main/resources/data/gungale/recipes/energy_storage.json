@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#W#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:redstone"
+    },
+    "W": {
+      "item": "minecraft:chest"
+    }
+  },
+  "result": {
+    "item": "gungale:energy_storage"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "gungale:holo"
+    },
+    {
+      "item": "gungale:holo"
+    },
+    {
+      "item": "gungale:lens"
+    }
+  ],
+  "result": {
+    "item": "gungale:variable_holo"
+  }
+}

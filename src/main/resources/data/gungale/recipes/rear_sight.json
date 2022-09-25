@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " W ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "minecraft:planks"
+    },
+    "W": {
+      "item": "gungale:steel_ingot"
+    }
+  },
+  "result": {
+    "item": "gungale:rear_sight"
+  }
+}

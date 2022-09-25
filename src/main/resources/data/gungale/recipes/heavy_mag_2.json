@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  #",
+    " X#",
+    "## "
+  ],
+  "key": {
+    "#": {
+      "item": "gungale:steel_ingot"
+    },
+    "X": {
+      "item": "gungale:heavy_mag_1"
+    }
+  },
+  "result": {
+    "item": "gungale:heavy_mag_2"
+  }
+}

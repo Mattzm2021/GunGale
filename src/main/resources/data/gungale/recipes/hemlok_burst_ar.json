@@ -1,0 +1,37 @@
+{
+  "type": "gungale:crafting_weapon",
+  "pattern": [
+    "#EF##",
+    "ABG##",
+    "  CD "
+  ],
+  "key": {
+    "#": {
+      "item": "gungale:steel_ingot"
+    },
+    "A": {
+      "item": "gungale:barrel"
+    },
+    "B": {
+      "item": "gungale:handguard"
+    },
+    "C": {
+      "item": "gungale:pistol_grip"
+    },
+    "D": {
+      "item": "gungale:heavy_mag"
+    },
+    "E": {
+      "item": "gungale:receiver"
+    },
+    "F": {
+      "item": "gungale:rear_sight"
+    },
+    "G": {
+      "item": "gungale:hemlok_3_round_burst_core"
+    }
+  },
+  "result": {
+    "item": "gungale:hemlok_burst_ar"
+  }
+}

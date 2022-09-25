@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "## ",
+    "#W#",
+    "## "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:iron_ingot"
+    },
+    "W": {
+      "item": "gungale:compressed_gunpowder"
+    }
+  },
+  "result": {
+    "item": "gungale:light_ammo",
+    "count": 30
+  }
+}

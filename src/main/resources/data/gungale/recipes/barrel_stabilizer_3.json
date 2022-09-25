@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#W#",
+    "#X#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:iron_ingot"
+    },
+    "X": {
+      "item": "minecraft:piston"
+    },
+    "W": {
+      "item": "gungale:barrel_stabilizer_2"
+    }
+  },
+  "result": {
+    "item": "gungale:barrel_stabilizer_3"
+  }
+}

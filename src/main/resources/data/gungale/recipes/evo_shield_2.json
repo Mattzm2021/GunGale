@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X#X",
+    "#W#",
+    "X#X"
+  ],
+  "key": {
+    "#": {
+      "item": "gungale:energy_storage"
+    },
+    "W": {
+      "item": "gungale:evo_shield_1"
+    },
+    "X": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "item": "gungale:evo_shield_2"
+  }
+}

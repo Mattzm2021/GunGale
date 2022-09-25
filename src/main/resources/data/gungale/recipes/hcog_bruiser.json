@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#W#",
+    "#X#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:glass_pane"
+    },
+    "W": {
+      "item": "gungale:lens"
+    },
+    "X": {
+      "item": "minecraft:red_stained_glass_pane"
+    }
+  },
+  "result": {
+    "item": "gungale:hcog_bruiser"
+  }
+}

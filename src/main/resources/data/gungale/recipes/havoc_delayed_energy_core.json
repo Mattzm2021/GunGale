@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##W"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:repeater"
+    },
+    "W": {
+      "item": "gungale:energy_storage"
+    }
+  },
+  "result": {
+    "item": "gungale:havoc_delayed_energy_core"
+  }
+}

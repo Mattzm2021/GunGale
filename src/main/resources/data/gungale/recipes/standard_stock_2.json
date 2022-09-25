@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " ##",
+    "#W#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:stone"
+    },
+    "W": {
+      "item": "gungale:standard_stock_1"
+    }
+  },
+  "result": {
+    "item": "gungale:standard_stock_2"
+  }
+}

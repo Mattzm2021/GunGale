@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#Z#",
+    "#W#",
+    "#X#"
+  ],
+  "key": {
+    "#": {
+      "item": "gungale:steel_ingot"
+    },
+    "W": {
+      "item": "minecraft:diamond"
+    },
+    "X": {
+      "item": "minecraft:lava_bucket"
+    },
+    "Z": {
+      "item": "minecraft:water_bucket"
+    }
+  },
+  "result": {
+    "item": "gungale:phoenix_kit"
+  }
+}

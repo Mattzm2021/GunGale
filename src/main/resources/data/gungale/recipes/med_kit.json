@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "XWZ",
+    "#W#"
+  ],
+  "key": {
+    "#": {
+      "item": "gungale:steel_ingot"
+    },
+    "W": {
+      "item": "minecraft:chest"
+    },
+    "X": {
+      "item": "minecraft:flint_and_steel"
+    },
+    "Z": {
+      "item": "minecraft:iron_axe"
+    }
+  },
+  "result": {
+    "item": "gungale:med_kit"
+  }
+}

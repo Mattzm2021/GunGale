@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#W#",
+    "#X#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "gungale:saltpeter"
+    },
+    "W": {
+      "tag": "minecraft:coals"
+    },
+    "X": {
+      "item": "gungale:sulfur"
+    }
+  },
+  "result": {
+    "item": "minecraft:gunpowder"
+  }
+}

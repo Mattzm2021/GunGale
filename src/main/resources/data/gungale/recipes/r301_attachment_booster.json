@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "W#X"
+  ],
+  "key": {
+    "#": {
+      "item": "gungale:compressed_redstone"
+    },
+    "W": {
+      "item": "gungale:standard_stock_1"
+    },
+    "X": {
+      "item": "gungale:barrel_stabilizer_1"
+    }
+  },
+  "result": {
+    "item": "gungale:r301_attachment_booster"
+  }
+}

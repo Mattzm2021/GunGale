@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#W#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "gungale:steel_ingot"
+    },
+    "W": {
+      "item": "minecraft:shield"
+    }
+  },
+  "result": {
+    "item": "gungale:evo_shield_1"
+  }
+}

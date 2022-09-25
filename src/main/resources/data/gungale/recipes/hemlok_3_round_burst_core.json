@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    " W "
+  ],
+  "key": {
+    "#": {
+      "item": "gungale:heavy_rounds"
+    },
+    "W": {
+      "item": "gungale:compressed_redstone"
+    }
+  },
+  "result": {
+    "item": "gungale:hemlok_3_round_burst_core"
+  }
+}

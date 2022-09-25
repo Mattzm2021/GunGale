@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#W#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:redstone"
+    },
+    "W": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "result": {
+    "item": "gungale:compressed_redstone"
+  }
+}

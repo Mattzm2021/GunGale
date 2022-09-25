@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#W#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:redstone"
+    },
+    "W": {
+      "item": "minecraft:repeater"
+    }
+  },
+  "result": {
+    "item": "gungale:flatline_rate_stabilizer"
+  }
+}

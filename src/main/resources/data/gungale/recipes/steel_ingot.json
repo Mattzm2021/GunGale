@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#W#"
+  ],
+  "key": {
+    "#": {
+      "tag": "minecraft:coals"
+    },
+    "W": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "gungale:steel_ingot"
+  }
+}
