@@ -30,7 +30,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 @OnlyIn(Dist.CLIENT)
-public class ModSettings extends GameSettings {
+public class ModSettings {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final Splitter OPTION_SPLITTER = Splitter.on(':').limit(2);
     public static final KeyBinding KEY_FIRE = new KeyBinding("key.fire", ModKeyConflictContext.ON_SHOOTABLE_0, Type.MOUSE, 0, "key.categories.gungale");
@@ -50,14 +50,12 @@ public class ModSettings extends GameSettings {
     private final File optionsFile;
 
     public ModSettings(@NotNull Minecraft minecraft, File file) {
-        super(minecraft, file);
         this.minecraft = minecraft;
         this.optionsFile = new File(file, "moptions.txt");
         this.load();
         this.setupAll();
     }
 
-    @Override
     public void load() {
         try {
             if (this.optionsFile == null || !this.optionsFile.exists()) {
@@ -85,11 +83,13 @@ public class ModSettings extends GameSettings {
 
                 try {
                     if ("globalSensitivity".equals(key)) {
-                        ModOptions.GLOBAL_SENSITIVITY.set(this, readFloat(value));
+                        this.globalSensitivity = readFloat(value);
                     }
                 } catch (Exception exception) {
                     LOGGER.warn("Skipping bad moption: {}:{}", key, value);
                 }
+
+                this.save();
             }
         } catch (Exception exception) {
             LOGGER.error("Failed to load moptions", exception);
@@ -106,7 +106,6 @@ public class ModSettings extends GameSettings {
         return NBTUtil.update(this.minecraft.getFixerUpper(), DefaultTypeReferences.OPTIONS, data, version);
     }
 
-    @Override
     public void save() {
         if (ClientModLoader.isLoading()) return;
         try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(java.nio.file.Files.newOutputStream(this.optionsFile.toPath()), StandardCharsets.UTF_8))) {

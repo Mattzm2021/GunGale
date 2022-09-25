@@ -13,13 +13,8 @@ public class ModOptions {
     public static final SliderPercentageOption GLOBAL_SENSITIVITY = new SliderPercentageOption("moptions.globalSensitivity", 0.0, 1.0, 0.0f, settings -> {
         return ClientObjectHolder.getInstance().getMOptions().globalSensitivity;
     }, (settings, value) -> {
-        if (settings instanceof ModSettings) {
-            ((ModSettings) settings).globalSensitivity = value;
-            settings.save();
-        } else {
-            ClientObjectHolder.getInstance().getMOptions().globalSensitivity = value;
-            ClientObjectHolder.getInstance().getMOptions().save();
-        }
+        ClientObjectHolder.getInstance().getMOptions().globalSensitivity = value;
+        ClientObjectHolder.getInstance().getMOptions().save();
     }, (settings, option) -> {
         double pct = option.toPct(option.get(settings));
         if (pct == 0.0D) {
