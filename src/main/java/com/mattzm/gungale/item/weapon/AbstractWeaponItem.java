@@ -159,6 +159,7 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
             AbstractWeaponItem item = (AbstractWeaponItem) ModPlayerInventory.get(player).getSelected().getItem();
             item.checkIfCanFire(player, ModPlayerInventory.get(player).getSelected());
         }
+
         resetNBT(player, ModPlayerInventory.get(player).getSelected());
         tickNBT(player);
     }

@@ -9,16 +9,16 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Random;
 
 public class ModOreBlock extends OreBlock {
-    public ModOreBlock(float strength, int harvestLevel) {
+    private final int minXpOnDrop, maxXpOnDrop;
+
+    public ModOreBlock(float strength, int harvestLevel, int minXpOnDrop, int maxXpOnDrop) {
         super(Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(strength).harvestTool(ToolType.PICKAXE).harvestLevel(harvestLevel));
+        this.minXpOnDrop = minXpOnDrop;
+        this.maxXpOnDrop = maxXpOnDrop;
     }
 
     @Override
     protected int xpOnDrop(@NotNull Random random) {
-        if (this == ModBlocks.SALTPETER_ORE) {
-            return MathHelper.nextInt(random, 0, 2);
-        } else {
-            return this == ModBlocks.SULFUR_ORE ? MathHelper.nextInt(random, 2, 5) : 0;
-        }
+        return MathHelper.nextInt(random, this.minXpOnDrop, this.maxXpOnDrop);
     }
 }

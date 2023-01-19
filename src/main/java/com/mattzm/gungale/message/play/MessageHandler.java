@@ -94,6 +94,5 @@ public class MessageHandler {
         channel.registerMessage(12, SFormalGameMessage.class,
                 SFormalGameMessage::encode, SFormalGameMessage::decode,
                 MessageHandler::onMessageReceived, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-
     }
 }
