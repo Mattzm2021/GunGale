@@ -13,8 +13,8 @@ import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractThreeRounded extends AbstractAutoWeaponItem implements IThreeRounded {
-    protected AbstractThreeRounded(@NotNull BasicProperty basicProperty, @NotNull DamageProperty damageProperty, @NotNull RecoilProperty recoilProperty, @NotNull ReloadProperty reloadProperty, @NotNull ADSProperty adsProperty, @NotNull MagProperty magProperty) {
-        super(basicProperty, damageProperty, recoilProperty, reloadProperty, adsProperty, magProperty);
+    protected AbstractThreeRounded(@NotNull BasicProperty basicProperty, @NotNull DamageProperty damageProperty, @NotNull RecoilProperty recoilProperty, @NotNull ReloadProperty reloadProperty, @NotNull ADSProperty adsProperty, @NotNull MagProperty magProperty, int mobility) {
+        super(basicProperty, damageProperty, recoilProperty, reloadProperty, adsProperty, magProperty, mobility);
     }
 
     @Override

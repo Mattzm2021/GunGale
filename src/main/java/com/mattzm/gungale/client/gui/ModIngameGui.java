@@ -70,85 +70,79 @@ public class ModIngameGui {
     }
 
     public void render(MatrixStack matrixStack, float partialTick) {
-            float f = this.showDamageTick;
-            if (f > 0) {
-                if (Integer.parseInt(this.minecraft.fpsString.split(" ")[0]) > 20) {
-                    if (partialTick + ModMathHelper.getFloatPart(f) < 1.0f) {
-                        f = MathHelper.floor(f) - partialTick;
-                    } else {
-                        f = MathHelper.ceil(f) - partialTick;
-                    }
+        float f = this.showDamageTick;
+        if (f > 0) {
+            if (Integer.parseInt(this.minecraft.fpsString.split(" ")[0]) > 20) {
+                if (partialTick + ModMathHelper.getFloatPart(f) < 1.0f) {
+                    f = MathHelper.floor(f) - partialTick;
                 } else {
-                    f--;
+                    f = MathHelper.ceil(f) - partialTick;
                 }
             } else {
-                f = 0;
-                this.damageTexts = new ColoredText[5];
-                this.damagePoses = new Vector2f[5];
+                f--;
             }
+        } else {
+            f = 0;
+            this.damageTexts = new ColoredText[5];
+            this.damagePoses = new Vector2f[5];
+        }
 
-            if (f > 0) {
-                this.renderDamageText(matrixStack, f);
-            }
+        if (f > 0) {
+            this.renderDamageText(matrixStack, f);
+        }
 
-            this.showDamageTick = f;
+        this.showDamageTick = f;
     }
 
     public void tick() {
-        if (this.minecraft.player != null) {
-            ModPlayerInventory inventory = ModPlayerInventory.get(this.minecraft.player);
-            ItemStack stack = inventory.status ? inventory.getSelected() : this.minecraft.player.inventory.getSelected();
-            if (stack.isEmpty()) {
-                this.toolHighlightTimer = 0;
-            } else if (!this.lastToolHighlight.isEmpty() && stack.getItem() == this.lastToolHighlight.getItem() && (stack.getHoverName().equals(this.lastToolHighlight.getHoverName()) && stack.getHighlightTip(stack.getHoverName()).equals(lastToolHighlight.getHighlightTip(lastToolHighlight.getHoverName())))) {
-                if (this.toolHighlightTimer > 0) {
-                    this.toolHighlightTimer--;
-                }
-            } else {
-                this.toolHighlightTimer = 40;
+        if (this.minecraft.player == null) return;
+        ModPlayerInventory inventory = ModPlayerInventory.get(this.minecraft.player);
+        ItemStack stack = inventory.status ? inventory.getSelected() : this.minecraft.player.inventory.getSelected();
+        if (stack.isEmpty()) {
+            this.toolHighlightTimer = 0;
+        } else if (!this.lastToolHighlight.isEmpty() && stack.getItem() == this.lastToolHighlight.getItem() && (stack.getHoverName().equals(this.lastToolHighlight.getHoverName()) && stack.getHighlightTip(stack.getHoverName()).equals(lastToolHighlight.getHighlightTip(lastToolHighlight.getHoverName())))) {
+            if (this.toolHighlightTimer > 0) {
+                this.toolHighlightTimer--;
             }
-
-            this.lastToolHighlight = stack;
+        } else {
+            this.toolHighlightTimer = 40;
         }
+
+        this.lastToolHighlight = stack;
     }
 
     public void renderBulletText(MatrixStack matrixStack) {
         PlayerEntity player = this.getPlayer();
-        if (player != null) {
-            ItemStack stack = ModPlayerInventory.get(player).getSelected();
-            AbstractWeaponItem item = (AbstractWeaponItem) stack.getItem();
-            String text = player.isSpectator() ? null
-                    : player.isCreative() ? "-- / --"
-                    : BulletNBT.get(stack) + " / " + item.getAllBullet(player);
-            if (text != null) {
-                float posX = (this.getWidth() - this.font.width(text)) / 2.0F;
-                float posY = this.getHeight() - (player.isCreative() ? 35.0F : 48.0F);
-                this.font.draw(matrixStack, text, posX + 1.0F, posY, 0);
-                this.font.draw(matrixStack, text, posX - 1.0F, posY, 0);
-                this.font.draw(matrixStack, text, posX, posY + 1.0F, 0);
-                this.font.draw(matrixStack, text, posX, posY - 1.0F, 0);
-                this.font.draw(matrixStack, text, posX, posY, 8453920);
-            }
-        }
+        if (player == null) return;
+        ItemStack stack = ModPlayerInventory.get(player).getSelected();
+        AbstractWeaponItem item = (AbstractWeaponItem) stack.getItem();
+        String text = player.isSpectator() ? null
+                : player.isCreative() ? "-- / --"
+                : BulletNBT.get(stack) + " / " + item.getAllBullet(player);
+        if (text == null) return;
+        float posX = (this.getWidth() - this.font.width(text)) / 2.0F;
+        float posY = this.getHeight() - (player.isCreative() ? 35.0F : 48.0F);
+        this.font.draw(matrixStack, text, posX + 1.0F, posY, 0);
+        this.font.draw(matrixStack, text, posX - 1.0F, posY, 0);
+        this.font.draw(matrixStack, text, posX, posY + 1.0F, 0);
+        this.font.draw(matrixStack, text, posX, posY - 1.0F, 0);
+        this.font.draw(matrixStack, text, posX, posY, 8453920);
     }
 
     public void renderReloadTickText(MatrixStack matrixStack) {
         PlayerEntity player = this.getPlayer();
-        if (player != null) {
-            String text = ReloadNBT.hasStart(player)
-                    ? ModMathHelper.oneDigitFloat(ModMathHelper.tickToSecond(ReloadNBT.getRealSpace(player))) + "s"
-                    : null;
-
-            if (text != null) {
-                float posX = (this.getWidth() - this.font.width(text)) / 2.0F + 50.0F;
-                float posY = this.getHeight() - (player.isCreative() ? 35.0F : 48.0F);
-                this.font.draw(matrixStack, text, posX + 1.0F, posY, 0);
-                this.font.draw(matrixStack, text, posX - 1.0F, posY, 0);
-                this.font.draw(matrixStack, text, posX, posY + 1.0F, 0);
-                this.font.draw(matrixStack, text, posX, posY - 1.0F, 0);
-                this.font.draw(matrixStack, text, posX, posY, 8453920);
-            }
-        }
+        if (player == null) return;
+        String text = ReloadNBT.hasStart(player)
+                ? ModMathHelper.oneDigitFloat(ModMathHelper.tickToSecond(ReloadNBT.getRealSpace(player))) + "s"
+                : null;
+        if (text == null) return;
+        float posX = (this.getWidth() - this.font.width(text)) / 2.0F + 50.0F;
+        float posY = this.getHeight() - (player.isCreative() ? 35.0F : 48.0F);
+        this.font.draw(matrixStack, text, posX + 1.0F, posY, 0);
+        this.font.draw(matrixStack, text, posX - 1.0F, posY, 0);
+        this.font.draw(matrixStack, text, posX, posY + 1.0F, 0);
+        this.font.draw(matrixStack, text, posX, posY - 1.0F, 0);
+        this.font.draw(matrixStack, text, posX, posY, 8453920);
     }
 
     public void renderRestoreTickText(MatrixStack matrixStack) {
@@ -315,98 +309,96 @@ public class ModIngameGui {
     @SuppressWarnings("deprecation")
     public void renderHotbar(float partialTicks, MatrixStack matrixStack) {
         PlayerEntity player = this.getCameraPlayer();
-        if (player != null) {
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.minecraft.getTextureManager().bind(MOD_WIDGETS_LOCATION);
-            ModPlayerInventory inventory = ModPlayerInventory.get(player);
-            ItemStack stack = player.getOffhandItem();
-            HandSide offHand = player.getMainArm().getOpposite();
-            int posX = this.getWidth() / 2;
-            int blitOffset = this.getBlitOffset();
-            this.setBlitOffset(-90);
-            this.blit(matrixStack, posX - 91, this.getHeight() - 22, 0, 0, 182, 22);
-            this.blit(matrixStack, offHand == HandSide.LEFT ? posX + 91 : posX - 91 - 49, this.getHeight() - 22, offHand == HandSide.LEFT ? 49 : 0, 206, 49, 22);
+        if (player == null) return;
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        this.minecraft.getTextureManager().bind(MOD_WIDGETS_LOCATION);
+        ModPlayerInventory inventory = ModPlayerInventory.get(player);
+        ItemStack stack = player.getOffhandItem();
+        HandSide offHand = player.getMainArm().getOpposite();
+        int posX = this.getWidth() / 2;
+        int blitOffset = this.getBlitOffset();
+        this.setBlitOffset(-90);
+        this.blit(matrixStack, posX - 91, this.getHeight() - 22, 0, 0, 182, 22);
+        this.blit(matrixStack, offHand == HandSide.LEFT ? posX + 91 : posX - 91 - 49, this.getHeight() - 22, offHand == HandSide.LEFT ? 49 : 0, 206, 49, 22);
 
-            if (inventory.status) {
-                int baseX = offHand == HandSide.LEFT ? posX + 91 + 7 - 1 : posX - 91 - 49 - 1;
-                this.blit(matrixStack, baseX + inventory.selected / 6 * 20, getHeight() - 22 - 1, 0, 22, 24, 22);
-            } else {
-                this.blit(matrixStack, posX - 91 - 1 + player.inventory.selected * 20, this.getHeight() - 22 - 1, 0, 22, 24, 22);
-            }
-
-            if (!stack.isEmpty()) {
-                if (offHand == HandSide.LEFT) {
-                    this.blit(matrixStack, posX - 91 - 29, this.getHeight() - 23, 24, 22, 29, 24);
-                } else {
-                    this.blit(matrixStack, posX + 91, this.getHeight() - 23, 53, 22, 29, 24);
-                }
-            }
-
-            this.setBlitOffset(blitOffset);
-            RenderSystem.enableRescaleNormal();
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
-
-            for (int i = 0; i < 9; i++) {
-                int posX1 = posX - 90 + i * 20 + 2;
-                int posY = this.getHeight() - 16 - 3;
-                this.renderSlot(posX1, posY, partialTicks, player, player.inventory.items.get(i));
-            }
-
-            for (int i = 0; i < 2; i++) {
-                int baseX1 = offHand == HandSide.LEFT ? posX + 91 + 7 + 3 : posX - 91 - 49 + 3;
-                this.renderSlot(baseX1 + i * 20, this.getHeight() - 16 - 3, partialTicks, player, inventory.getItem(i * 6));
-            }
-
-            if (!stack.isEmpty()) {
-                int posY1 = this.getHeight() - 16 - 3;
-                if (offHand == HandSide.LEFT) {
-                    this.renderSlot(posX - 91 - 26, posY1, partialTicks, player, stack);
-                } else {
-                    this.renderSlot(posX + 91 + 10, posY1, partialTicks, player, stack);
-                }
-            }
-
-            if (this.minecraft.options.attackIndicator == AttackIndicatorStatus.HOTBAR && this.minecraft.player != null) {
-                float scale = this.minecraft.player.getAttackStrengthScale(0.0F);
-                if (scale < 1.0F) {
-                    int posY2 = this.getHeight() - 20;
-                    int posX2 = posX + 91 + 6;
-                    if (offHand == HandSide.RIGHT) {
-                        posX2 = posX - 91 - 22;
-                    }
-
-                    this.minecraft.getTextureManager().bind(AbstractGui.GUI_ICONS_LOCATION);
-                    int scale1 = (int) (scale * 19.0F);
-                    RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-                    this.blit(matrixStack, posX2, posY2, 0, 94, 18, 18);
-                    this.blit(matrixStack, posX2, posY2 + 18 - scale1, 18, 112 - scale1, 18, scale1);
-                }
-            }
-
-            RenderSystem.disableRescaleNormal();
-            RenderSystem.disableBlend();
+        if (inventory.status) {
+            int baseX = offHand == HandSide.LEFT ? posX + 91 + 7 - 1 : posX - 91 - 49 - 1;
+            this.blit(matrixStack, baseX + inventory.selected / 6 * 20, getHeight() - 22 - 1, 0, 22, 24, 22);
+        } else {
+            this.blit(matrixStack, posX - 91 - 1 + player.inventory.selected * 20, this.getHeight() - 22 - 1, 0, 22, 24, 22);
         }
+
+        if (!stack.isEmpty()) {
+            if (offHand == HandSide.LEFT) {
+                this.blit(matrixStack, posX - 91 - 29, this.getHeight() - 23, 24, 22, 29, 24);
+            } else {
+                this.blit(matrixStack, posX + 91, this.getHeight() - 23, 53, 22, 29, 24);
+            }
+        }
+
+        this.setBlitOffset(blitOffset);
+        RenderSystem.enableRescaleNormal();
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+
+        for (int i = 0; i < 9; i++) {
+            int posX1 = posX - 90 + i * 20 + 2;
+            int posY = this.getHeight() - 16 - 3;
+            this.renderSlot(posX1, posY, partialTicks, player, player.inventory.items.get(i));
+        }
+
+        for (int i = 0; i < 2; i++) {
+            int baseX1 = offHand == HandSide.LEFT ? posX + 91 + 7 + 3 : posX - 91 - 49 + 3;
+            this.renderSlot(baseX1 + i * 20, this.getHeight() - 16 - 3, partialTicks, player, inventory.getItem(i * 6));
+        }
+
+        if (!stack.isEmpty()) {
+            int posY1 = this.getHeight() - 16 - 3;
+            if (offHand == HandSide.LEFT) {
+                this.renderSlot(posX - 91 - 26, posY1, partialTicks, player, stack);
+            } else {
+                this.renderSlot(posX + 91 + 10, posY1, partialTicks, player, stack);
+            }
+        }
+
+        if (this.minecraft.options.attackIndicator == AttackIndicatorStatus.HOTBAR && this.minecraft.player != null) {
+            float scale = this.minecraft.player.getAttackStrengthScale(0.0F);
+            if (scale < 1.0F) {
+                int posY2 = this.getHeight() - 20;
+                int posX2 = posX + 91 + 6;
+                if (offHand == HandSide.RIGHT) {
+                    posX2 = posX - 91 - 22;
+                }
+
+                this.minecraft.getTextureManager().bind(AbstractGui.GUI_ICONS_LOCATION);
+                int scale1 = (int) (scale * 19.0F);
+                RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+                this.blit(matrixStack, posX2, posY2, 0, 94, 18, 18);
+                this.blit(matrixStack, posX2, posY2 + 18 - scale1, 18, 112 - scale1, 18, scale1);
+            }
+        }
+
+        RenderSystem.disableRescaleNormal();
+        RenderSystem.disableBlend();
     }
 
     private void renderSlot(int posX, int posY, float partialTicks, PlayerEntity player, @NotNull ItemStack stack) {
-        if (!stack.isEmpty()) {
-            float f = (float) stack.getPopTime() - partialTicks;
-            if (f > 0.0F) {
-                GL11.glPushMatrix();
-                float f1 = 1.0F + f / 5.0F;
-                GL11.glTranslatef((float) (posX + 8), (float) (posY + 12), 0.0F);
-                GL11.glScalef(1.0F / f1, (f1 + 1.0F) / 2.0F, 1.0F);
-                GL11.glTranslatef((float) (-(posX + 8)), (float) (-(posY + 12)), 0.0F);
-            }
-
-            this.itemRenderer.renderAndDecorateItem(player, stack, posX, posY);
-            if (f > 0.0F) {
-                GL11.glPopMatrix();
-            }
-
-            this.itemRenderer.renderGuiItemDecorations(this.minecraft.font, stack, posX, posY);
+        if (stack.isEmpty()) return;
+        float f = (float) stack.getPopTime() - partialTicks;
+        if (f > 0.0F) {
+            GL11.glPushMatrix();
+            float f1 = 1.0F + f / 5.0F;
+            GL11.glTranslatef((float) (posX + 8), (float) (posY + 12), 0.0F);
+            GL11.glScalef(1.0F / f1, (f1 + 1.0F) / 2.0F, 1.0F);
+            GL11.glTranslatef((float) (-(posX + 8)), (float) (-(posY + 12)), 0.0F);
         }
+
+        this.itemRenderer.renderAndDecorateItem(player, stack, posX, posY);
+        if (f > 0.0F) {
+            GL11.glPopMatrix();
+        }
+
+        this.itemRenderer.renderGuiItemDecorations(this.minecraft.font, stack, posX, posY);
     }
 
     public void renderSelectedItemName(MatrixStack matrixStack) {

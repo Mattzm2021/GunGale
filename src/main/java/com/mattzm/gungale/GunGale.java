@@ -26,8 +26,7 @@ public class GunGale {
     @SubscribeEvent
     public static void onClientSetup(final @NotNull FMLClientSetupEvent event) {
         Minecraft minecraft = event.getMinecraftSupplier().get();
-        ClientObjectHolder holder = new ClientObjectHolder(minecraft);
-        holder.setup();
+        new ClientObjectHolder(minecraft).setup();
         ModScreenManager.setupScreen();
     }
 }

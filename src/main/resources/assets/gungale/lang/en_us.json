@@ -6,7 +6,7 @@
   "container.weapon_bench": "Weapon Bench",
   "death.attack.gunshot": "%1$s was shot dead",
   "death.attack.gunshot.player": "%1$s was shot dead by %2$s",
-  "death.attack.gunshot.item": "%1$s was shot dead by %2$s using %3$s",
+  "death.attack.gunshot.item": "%1$s was shot dead by %2$s using %3$s (%4$s blocks)",
   "game.formal.stage_1_title": "§9Stage 1",
   "game.formal.stage_2_title": "§9Stage 2",
   "game.formal.stage_3_title": "§9Stage 3",

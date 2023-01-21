@@ -81,6 +81,8 @@ public class RegistryHandler {
         event.getRegistry().register(ModItems.R301_ATTACHMENT_BOOSTER);
         event.getRegistry().register(ModItems.HEMLOK_3_ROUND_BURST_CORE);
         event.getRegistry().register(ModItems.HAVOC_DELAYED_ENERGY_CORE);
+
+        event.getRegistry().register(ModItems.TEST);
     }
 
     @SubscribeEvent

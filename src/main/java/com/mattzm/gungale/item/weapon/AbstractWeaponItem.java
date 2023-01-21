@@ -3,6 +3,7 @@ package com.mattzm.gungale.item.weapon;
 import com.mattzm.gungale.client.object.ClientObjectHolder;
 import com.mattzm.gungale.entity.player.ModPlayerInventory;
 import com.mattzm.gungale.entity.projectile.ModProjectileHelper;
+import com.mattzm.gungale.entity.util.EntityHelper;
 import com.mattzm.gungale.item.*;
 import com.mattzm.gungale.message.*;
 import com.mattzm.gungale.message.play.*;
@@ -26,6 +27,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
@@ -40,7 +42,6 @@ import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -48,8 +49,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.UUID;
 
 public abstract class AbstractWeaponItem extends Item implements IAttachable, IReloadable {
+    private static final UUID SPEED_UUID = UUID.fromString("f3286092-bd91-4661-8860-c405d7f39cca");
     public final float bodyDamage;
     public final int rateOfFire;
     public final int precision;
@@ -61,12 +64,13 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
     public final int fullReloadSpeed;
     public final int tacReloadSpeed;
     public final int adsSpeed;
+    public final int mobility;
     public final MagProperty magProperty;
     public final RecoilProperty recoilProperty;
     public final DamageProperty damageProperty;
 
     protected AbstractWeaponItem(@NotNull BasicProperty basicProperty, @NotNull DamageProperty damageProperty, @NotNull RecoilProperty recoilProperty,
-                                 @NotNull ReloadProperty reloadProperty, @NotNull ADSProperty adsProperty, @NotNull MagProperty magProperty) {
+                                 @NotNull ReloadProperty reloadProperty, @NotNull ADSProperty adsProperty, @NotNull MagProperty magProperty, int mobility) {
         super(new Item.Properties().tab(ModItemGroup.TAB_WEAPON).stacksTo(1));
 
         this.bodyDamage = basicProperty.bodyDamage;
@@ -83,6 +87,7 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
         this.magProperty = magProperty;
         this.recoilProperty = recoilProperty;
         this.damageProperty = damageProperty;
+        this.mobility = mobility;
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -149,6 +154,10 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
             } else {
                 Minecraft.getInstance().options.fov += speed;
             }
+        }
+
+        if (ADSNBT.onADS(player)) {
+            EntityHelper.stopSprinting(player);
         }
     }
 
@@ -284,6 +293,18 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
         return !ReloadNBT.hasStart(player) && !BulletNBT.isEmpty(stack) || player.isCreative();
     }
 
+    public void executeSlowDown(@NotNull PlayerEntity player) {
+        EntityHelper.getSpeedAttributeInstance(player).addTransientModifier(getSpeedModifier(ModMathHelper.twoDigitsDouble(this.mobility / 1000.0 - 0.1)));
+    }
+
+    public void removeSlowDown(PlayerEntity player) {
+        EntityHelper.getSpeedAttributeInstance(player).removeModifier(SPEED_UUID);
+    }
+
+    private static @NotNull AttributeModifier getSpeedModifier(double amount) {
+        return new AttributeModifier(SPEED_UUID, "Speed", amount, AttributeModifier.Operation.ADDITION);
+    }
+
     @OnlyIn(Dist.CLIENT)
     public boolean canFire(PlayerEntity player, ItemStack stack) {
         return haveFireAbility(player, stack) && !CoolDownNBT.hasStart(player) && FireNBT.onFire(player);
@@ -306,7 +327,6 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
             entity.setHealth(entity.getHealth() - realDamage);
         }
 
-        LogManager.getLogger().debug(damage);
         entity.hurtDuration = 10;
         entity.hurtTime = entity.hurtDuration;
         entity.hurtDir = 0.0f;

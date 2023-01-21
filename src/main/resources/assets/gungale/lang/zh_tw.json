@@ -6,7 +6,7 @@
   "container.weapon_bench": "武器鍛造台",
   "death.attack.gunshot": "%1$s 被槍殺了",
   "death.attack.gunshot.player": "%1$s 被 %2$s 槍殺了",
-  "death.attack.gunshot.item": "%1$s 被 %2$s 用 %3$s 槍殺了",
+  "death.attack.gunshot.item": "%1$s 被 %2$s 用 %3$s 槍殺了 (%4$s 格)",
   "game.formal.stage_1_title": "§9第一階段",
   "game.formal.stage_2_title": "§9第二階段",
   "game.formal.stage_3_title": "§9第三階段",

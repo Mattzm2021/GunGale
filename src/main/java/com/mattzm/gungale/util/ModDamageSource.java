@@ -29,7 +29,10 @@ public class ModDamageSource extends EntityDamageSource {
         String s = "death.attack." + this.msgId;
         if (this.entity == null) return new TranslationTextComponent(s, entity.getDisplayName());
         ItemStack stack = this.entity instanceof PlayerEntity ? ModPlayerInventory.get((PlayerEntity) this.entity).getSelected() : ItemStack.EMPTY;
-        s += stack.isEmpty() ? ".player" : ".item";
-        return new TranslationTextComponent(s, entity.getDisplayName(), this.entity.getDisplayName(), stack.getDisplayName());
+        if (stack.isEmpty()) {
+            return new TranslationTextComponent(s + ".player", entity.getDisplayName(), this.entity.getDisplayName());
+        } else {
+            return new TranslationTextComponent(s + ".item", entity.getDisplayName(), this.entity.getDisplayName(), stack.getDisplayName(), entity.distanceTo(this.entity));
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.mattzm.gungale.item;
 
 import com.mattzm.gungale.client.nbt.tick.RestoreNBT;
 import com.mattzm.gungale.entity.player.ModPlayerInventory;
+import com.mattzm.gungale.entity.util.EntityHelper;
 import com.mattzm.gungale.message.NBTAction;
 import com.mattzm.gungale.message.play.CRestoreMessage;
 import com.mattzm.gungale.message.play.MessageHandler;
@@ -10,8 +11,6 @@ import com.mattzm.gungale.util.math.ModMathHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -72,7 +71,7 @@ public class RestoreItem extends Item {
     @OnlyIn(Dist.CLIENT)
     private static void tickNBT(@NotNull PlayerEntity player) {
         if (RestoreNBT.hasStart(player)) {
-            stopSprinting(player);
+            EntityHelper.stopSprinting(player);
             RestoreNBT.tick(player);
         }
     }
@@ -80,13 +79,9 @@ public class RestoreItem extends Item {
     public static void executeSlowDown(@NotNull PlayerEntity player) {
         if (!(player.getMainHandItem().getItem() instanceof RestoreItem)) return;
         RestoreItem item = (RestoreItem) player.getMainHandItem().getItem();
-        if (item.effect != -1) getSpeed(player).addTransientModifier(getSpeedModifier(-0.01));
-        else if (item.type != Type.MIXED) getSpeed(player).addTransientModifier(getSpeedModifier(-0.025));
-        else getSpeed(player).addTransientModifier(getSpeedModifier(-0.04));
-    }
-
-    public static void stopSprinting(@NotNull PlayerEntity player) {
-        player.setSprinting(false);
+        if (item.effect != -1) EntityHelper.getSpeedAttributeInstance(player).addTransientModifier(getSpeedModifier(-0.01));
+        else if (item.type != Type.MIXED) EntityHelper.getSpeedAttributeInstance(player).addTransientModifier(getSpeedModifier(-0.025));
+        else EntityHelper.getSpeedAttributeInstance(player).addTransientModifier(getSpeedModifier(-0.04));
     }
 
     public boolean checkUsing(ItemStack gearStack, PlayerEntity player) {
@@ -101,7 +96,7 @@ public class RestoreItem extends Item {
     }
 
     public static void removeSlowDown(PlayerEntity player) {
-        getSpeed(player).removeModifier(SPEED_UUID);
+        EntityHelper.getSpeedAttributeInstance(player).removeModifier(SPEED_UUID);
     }
 
     public void executeRestore(PlayerEntity player, @NotNull ItemStack stack) {
@@ -118,10 +113,6 @@ public class RestoreItem extends Item {
             if (this.effect == -1) player.setHealth(player.getMaxHealth());
             else player.setHealth(Math.min(player.getMaxHealth(), player.getHealth() + this.effect));
         }
-    }
-
-    private static ModifiableAttributeInstance getSpeed(@NotNull PlayerEntity player) {
-        return Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED));
     }
 
     private static @NotNull AttributeModifier getSpeedModifier(double amount) {

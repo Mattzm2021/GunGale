@@ -81,17 +81,20 @@ public class MessageHandler {
         channel.registerMessage(8, COpenInventoryMessage.class,
                 COpenInventoryMessage::encode, COpenInventoryMessage::decode,
                 MessageHandler::onMessageReceived, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        channel.registerMessage(9, CADSMessage.class,
+                CADSMessage::encode, CADSMessage::decode,
+                MessageHandler::onMessageReceived, Optional.of(NetworkDirection.PLAY_TO_SERVER));
 
-        channel.registerMessage(9, SUpdateInventoryMessage.class,
+        channel.registerMessage(10, SUpdateInventoryMessage.class,
                 SUpdateInventoryMessage::encode, SUpdateInventoryMessage::decode,
                 MessageHandler::onMessageReceived, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-        channel.registerMessage(10, SBlockHitMessage.class,
+        channel.registerMessage(11, SBlockHitMessage.class,
                 SBlockHitMessage::encode, SBlockHitMessage::decode,
                 MessageHandler::onMessageReceived, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-        channel.registerMessage(11, SEntityHitMessage.class,
+        channel.registerMessage(12, SEntityHitMessage.class,
                 SEntityHitMessage::encode, SEntityHitMessage::decode,
                 MessageHandler::onMessageReceived, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-        channel.registerMessage(12, SFormalGameMessage.class,
+        channel.registerMessage(13, SFormalGameMessage.class,
                 SFormalGameMessage::encode, SFormalGameMessage::decode,
                 MessageHandler::onMessageReceived, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }

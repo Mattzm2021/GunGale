@@ -2,6 +2,9 @@ package com.mattzm.gungale.client.nbt;
 
 import com.mattzm.gungale.entity.player.ModPlayerInventory;
 import com.mattzm.gungale.item.weapon.AbstractWeaponItem;
+import com.mattzm.gungale.message.NBTAction;
+import com.mattzm.gungale.message.play.CADSMessage;
+import com.mattzm.gungale.message.play.MessageHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,6 +20,7 @@ public class ADSNBT {
 
     public static void start(@NotNull PlayerEntity player, double fov) {
         AbstractWeaponItem item = (AbstractWeaponItem) ModPlayerInventory.get(player).getSelected().getItem();
+        MessageHandler.sendToServer(new CADSMessage(NBTAction.START));
         setSpeed(player, item.adsSpeed);
         setFov(player, fov);
         CompoundNBT nbt = player.getPersistentData().getCompound(TAG_ID);
@@ -25,6 +29,7 @@ public class ADSNBT {
     }
 
     public static void end(@NotNull PlayerEntity player) {
+        MessageHandler.sendToServer(new CADSMessage(NBTAction.END));
         CompoundNBT nbt = player.getPersistentData().getCompound(TAG_ID);
         nbt.putBoolean(TAG_STATUS, false);
         player.getPersistentData().put(TAG_ID, nbt);
