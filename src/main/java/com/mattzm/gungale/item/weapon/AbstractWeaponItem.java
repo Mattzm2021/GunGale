@@ -338,6 +338,13 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
             if (entity instanceof PlayerEntity) {
                 GearItem.checkIfUpdateEvolve(player, 80.0f);
             }
+        } else if (entity instanceof PlayerEntity) {
+            PlayerEntity player1 = (PlayerEntity) entity;
+            if (GearItem.hasGear(player1)) {
+                playSound(entity, SoundEvents.GLASS_BREAK, 1.0f, (new Random().nextFloat() - new Random().nextFloat()) * 0.2F + 1.0F);
+            } else {
+                playSound(entity, SoundEvents.GENERIC_HURT, 1.0f, (new Random().nextFloat() - new Random().nextFloat()) * 0.2F + 1.0F);
+            }
         } else {
             playSound(entity, SoundEvents.GENERIC_HURT, 1.0f, (new Random().nextFloat() - new Random().nextFloat()) * 0.2F + 1.0F);
         }
@@ -481,6 +488,8 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
                     new StringTextComponent(Double.toString(this.tacReloadSpeed / 20.0)).withStyle(TextFormatting.RED)));
             textComponents.add(new TranslationTextComponent("tooltip.gungale.property.ads_speed",
                     new StringTextComponent(Double.toString(ModMathHelper.tickToSecond(this.adsSpeed))).withStyle(TextFormatting.RED)));
+            textComponents.add(new TranslationTextComponent("tooltip.gungale.property.mobility",
+                    new StringTextComponent(Integer.toString(this.mobility)).withStyle(TextFormatting.RED)));
         }
     }
 }

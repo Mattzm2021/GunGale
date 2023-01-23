@@ -1,6 +1,7 @@
 package com.mattzm.gungale.util;
 
 import com.mattzm.gungale.entity.player.ModPlayerInventory;
+import com.mattzm.gungale.util.math.ModMathHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -32,7 +33,7 @@ public class ModDamageSource extends EntityDamageSource {
         if (stack.isEmpty()) {
             return new TranslationTextComponent(s + ".player", entity.getDisplayName(), this.entity.getDisplayName());
         } else {
-            return new TranslationTextComponent(s + ".item", entity.getDisplayName(), this.entity.getDisplayName(), stack.getDisplayName(), entity.distanceTo(this.entity));
+            return new TranslationTextComponent(s + ".item", entity.getDisplayName(), this.entity.getDisplayName(), stack.getDisplayName(), ModMathHelper.twoDigitsFloat(entity.distanceTo(this.entity)));
         }
     }
 }

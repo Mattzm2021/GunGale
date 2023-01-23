@@ -97,6 +97,7 @@
   "tooltip.gungale.property.hip_fire_accuracy": "§3腰射準度： %1$s / 100",
   "tooltip.gungale.property.reload_speed": "§3換彈速度： %1$s(標準) / %2$s(戰術) 秒",
   "tooltip.gungale.property.ads_speed": "§3開鏡速度： %1$s 秒",
+  "tooltip.gungale.property.mobility": "§3機動性： %1$s %%",
   "tooltip.gungale.evo_shield.evolvable": "§b可吸收 %1$s 顆心§b的傷害。穿戴者造成傷害時可獲得吸收量。",
   "tooltip.gungale.evo_shield.evolved": "§b防護罩進化完成， 可吸收 §c12.5 §f顆心§b的傷害。",
   "tooltip.gungale.evo_shield.resistance": "§3吸收值剩餘： %1$s 顆心",

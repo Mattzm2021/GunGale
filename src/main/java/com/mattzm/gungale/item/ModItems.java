@@ -23,25 +23,25 @@ public class ModItems {
             new DamageProperty(6.4f, 3.6f, 2.8f),
             new RecoilProperty(36, 13, 45, 7, 11, 16),
             new ReloadProperty(56, 40),
-            new ADSProperty(5), new MagProperty(27, 31, 34), 30));
+            new ADSProperty(5), new MagProperty(27, 31, 34), 60));
     public static final Item R301_CARBINE = register("r301_carbine", new R301Carbine(
             new BasicProperty(2.8f, 816, 55, 20, 190.0f),
             new DamageProperty(5.0f, 2.8f, 2.4f),
             new RecoilProperty(44, 16, 55, 8, 14, 17, 8, 14, 19),
             new ReloadProperty(50, 32),
-            new ADSProperty(5), new MagProperty(22, 28, 32), 30));
+            new ADSProperty(5), new MagProperty(22, 28, 32), 60));
     public static final Item HEMLOK_BURST_AR = register("hemlok_burst_ar", new HemlokBurstAR(
             new BasicProperty(4.4f, 924, 38, 21, 244.8f),
             new DamageProperty(7.8f, 4.4f, 3.4f),
             new RecoilProperty(30, 11, 38, 6, 10, 11, 6, 10, 13),
             new ReloadProperty(52, 40),
-            new ADSProperty(5), new MagProperty(27, 30, 36), 30));
+            new ADSProperty(5), new MagProperty(27, 30, 36), 60));
     public static final Item HAVOC_RIFLE = register("havoc_rifle", new HavocRifle(
             new BasicProperty(3.6f, 672, 35, 26, 197.6f),
             new DamageProperty(6.4f, 3.6f, 3.0f),
             new RecoilProperty(28, 10, 35, 5, 9, 12),
             new ReloadProperty(58, 58),
-            new ADSProperty(5), new MagProperty(30, 34, 38), 30));
+            new ADSProperty(5), new MagProperty(30, 34, 38), 60));
 
     public static final Item EVO_SHIELD_1 = register("evo_shield_1", new GearItem(ArmorMaterial.LEATHER, 10, 30));
     public static final Item EVO_SHIELD_2 = register("evo_shield_2", new GearItem(ArmorMaterial.IRON, 15, 110));

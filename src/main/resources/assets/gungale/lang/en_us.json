@@ -97,6 +97,7 @@
   "tooltip.gungale.property.hip_fire_accuracy": "§3Hip Fire Accuracy: %1$s / 100",
   "tooltip.gungale.property.reload_speed": "§3Reload Speed: %1$s(full) / %2$s(tac) sec",
   "tooltip.gungale.property.ads_speed": "§3Ads Speed: %1$s sec",
+  "tooltip.gungale.property.mobility": "§3Mobility: %1$s %%",
   "tooltip.gungale.evo_shield.evolvable": "§bAbsorbs %1$s hearts§b damage. Gains strength when wearer inflicts damage.",
   "tooltip.gungale.evo_shield.evolved": "§bFully evolved, absorbs §c12.5§f hearts§b damage.",
   "tooltip.gungale.evo_shield.resistance": "§3Resistance remain: %1$s hearts",

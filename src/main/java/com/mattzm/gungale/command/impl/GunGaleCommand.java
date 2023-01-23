@@ -201,7 +201,7 @@ public class GunGaleCommand {
             player.removeAllEffects();
         }
 
-        source.getLevel().getWorldBorder().setSize(10000000);
+        source.getLevel().getWorldBorder().setSize(29999984);
         if (FormalGameHandler.getInstance() != null) {
             FormalGameHandler.getInstance().stopFormalGame();
         }
