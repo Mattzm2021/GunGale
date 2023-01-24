@@ -2,9 +2,9 @@ package com.mattzm.gungale.handler;
 
 import com.mattzm.gungale.GunGale;
 import com.mattzm.gungale.block.ModBlocks;
-import com.mattzm.gungale.inventory.container.ModContainerType;
+import com.mattzm.gungale.inventory.container.ModContainerTypes;
 import com.mattzm.gungale.item.ModItems;
-import com.mattzm.gungale.item.crafting.ModRecipes;
+import com.mattzm.gungale.item.crafting.ModRecipeSerializers;
 import com.mattzm.gungale.potion.ModEffects;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.container.ContainerType;
@@ -104,13 +104,13 @@ public class RegistryHandler {
 
     @SubscribeEvent
     public static void registerContainer(RegistryEvent.@NotNull Register<ContainerType<?>> event) {
-        event.getRegistry().register(ModContainerType.MOD_INVENTORY);
-        event.getRegistry().register(ModContainerType.MOD_CRAFTING);
-        event.getRegistry().register(ModContainerType.WEAPON_BENCH);
+        event.getRegistry().register(ModContainerTypes.MOD_INVENTORY);
+        event.getRegistry().register(ModContainerTypes.MOD_CRAFTING);
+        event.getRegistry().register(ModContainerTypes.WEAPON_BENCH);
     }
 
     @SubscribeEvent
     public static void registerRecipe(RegistryEvent.@NotNull Register<IRecipeSerializer<?>> event) {
-        event.getRegistry().register(ModRecipes.WEAPON_RECIPE);
+        event.getRegistry().register(ModRecipeSerializers.WEAPON_RECIPE);
     }
 }

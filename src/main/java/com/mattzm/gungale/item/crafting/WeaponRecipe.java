@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.network.PacketBuffer;
@@ -152,6 +153,16 @@ public class WeaponRecipe extends ShapedRecipe {
         } else {
             return nonNullList;
         }
+    }
+
+    @Override
+    public @NotNull IRecipeType<?> getType() {
+        return ModRecipeTypes.WEAPON;
+    }
+
+    @Override
+    public @NotNull IRecipeSerializer<?> getSerializer() {
+        return ModRecipeSerializers.WEAPON_RECIPE;
     }
 
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<WeaponRecipe> {

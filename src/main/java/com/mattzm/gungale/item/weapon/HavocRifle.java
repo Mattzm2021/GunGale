@@ -1,6 +1,5 @@
 package com.mattzm.gungale.item.weapon;
 
-import com.mattzm.gungale.item.*;
 import com.mattzm.gungale.property.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,8 +11,8 @@ public class HavocRifle extends AbstractDelayedWeaponItem {
 
     @Nullable
     @Override
-    public MagItem getMag() {
-        return null;
+    public Status getMag() {
+        return Status.TRUE;
     }
 
     @Override
@@ -23,20 +22,20 @@ public class HavocRifle extends AbstractDelayedWeaponItem {
 
     @Nullable
     @Override
-    public StockItem getStock() {
-        return null;
+    public Status getStock() {
+        return Status.TRUE;
     }
 
     @Nullable
     @Override
-    public OpticItem getOptic() {
-        return null;
+    public Status getOptic() {
+        return Status.TRUE;
     }
 
     @Nullable
     @Override
-    public HopUpItem getHopUp() {
-        return null;
+    public Status getHopUp() {
+        return Status.TRUE;
     }
 
     @Override

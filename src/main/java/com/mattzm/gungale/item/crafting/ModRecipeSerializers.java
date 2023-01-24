@@ -6,7 +6,7 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.util.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
-public class ModRecipes {
+public class ModRecipeSerializers {
     public static IRecipeSerializer<WeaponRecipe> WEAPON_RECIPE = register("crafting_weapon", new WeaponRecipe.Serializer());
 
     static <S extends IRecipeSerializer<T>, T extends IRecipe<?>> @NotNull S register(String location, @NotNull S recipe) {

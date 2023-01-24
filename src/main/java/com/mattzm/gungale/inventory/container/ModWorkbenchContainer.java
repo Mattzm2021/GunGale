@@ -33,7 +33,7 @@ public class ModWorkbenchContainer extends RecipeBookContainer<CraftingInventory
     }
 
     public ModWorkbenchContainer(int p_i50090_1_, @NotNull PlayerInventory p_i50090_2_, ModPlayerInventory inventory, IWorldPosCallable p_i50090_3_) {
-        super(ModContainerType.MOD_CRAFTING, p_i50090_1_);
+        super(ModContainerTypes.MOD_CRAFTING, p_i50090_1_);
         this.access = p_i50090_3_;
         this.player = p_i50090_2_.player;
         this.inventory = inventory;

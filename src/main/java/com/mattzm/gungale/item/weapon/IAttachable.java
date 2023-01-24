@@ -1,6 +1,5 @@
 package com.mattzm.gungale.item.weapon;
 
-import com.mattzm.gungale.item.*;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -14,13 +13,13 @@ public interface IAttachable {
         }
     }
 
-    @Nullable MagItem getMag();
+    @Nullable Status getMag();
 
     @NotNull Status getBarrel();
 
-    @Nullable StockItem getStock();
+    @Nullable Status getStock();
 
-    @Nullable OpticItem getOptic();
+    @Nullable Status getOptic();
 
-    @Nullable HopUpItem getHopUp();
+    @Nullable Status getHopUp();
 }
