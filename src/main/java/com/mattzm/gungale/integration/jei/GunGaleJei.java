@@ -21,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("unused")
 @JeiPlugin
 public class GunGaleJei implements IModPlugin {
     @Nullable private WeaponRecipeCategory weaponRecipeCategory;

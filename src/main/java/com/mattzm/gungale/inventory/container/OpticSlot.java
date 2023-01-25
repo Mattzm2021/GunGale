@@ -2,7 +2,6 @@ package com.mattzm.gungale.inventory.container;
 
 import com.mattzm.gungale.item.OpticItem;
 import com.mattzm.gungale.item.weapon.AbstractWeaponItem;
-import com.mattzm.gungale.item.weapon.IAttachable;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.PlayerContainer;
@@ -18,14 +17,17 @@ public class OpticSlot extends AttachmentSlot {
 
     @Override
     public boolean mayPlace(@NotNull ItemStack stack) {
-        return stack.getItem() instanceof OpticItem && !this.container.getItem(this.weaponSlot).isEmpty();
-    }
+        if (this.container.getItem(this.weaponSlot).isEmpty()) {
+            return false;
+        } else {
+            return stack.getItem() instanceof OpticItem && ((AbstractWeaponItem) this.container.getItem(this.weaponSlot).getItem()).getOptic().get();
+        }    }
 
     @Override
     public @Nullable Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
         if (!this.container.getItem(this.weaponSlot).isEmpty()) {
             AbstractWeaponItem item = (AbstractWeaponItem) this.container.getItem(this.weaponSlot).getItem();
-            if (item.getOptic() == IAttachable.Status.FALSE) {
+            if (!item.getOptic().get()) {
                 return Pair.of(PlayerContainer.BLOCK_ATLAS, AttachmentSlot.INCAPABLE_SLOT);
             }
         }

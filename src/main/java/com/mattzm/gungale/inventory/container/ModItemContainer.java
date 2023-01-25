@@ -24,7 +24,7 @@ public class ModItemContainer extends Container {
             this.addSlot(new BarrelSlot(this.inventory, i * 6 + 2, 89, 21 + i * 38, i * 6));
             this.addSlot(new StockSlot(this.inventory, i * 6 + 3, 109, 21 + i * 38, i * 6));
             this.addSlot(new OpticSlot(this.inventory, i * 6 + 4, 129, 21 + i * 38, i * 6));
-            this.addSlot(new AttachmentSlot(this.inventory, i * 6 + 5, 149, 21 + i * 38, i * 6, 4));
+            this.addSlot(new HopUpSlot(this.inventory, i * 6 + 5, 149, 21 + i * 38, i * 6));
         }
 
         int slotAmount = 10;

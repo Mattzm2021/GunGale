@@ -2,8 +2,6 @@ package com.mattzm.gungale.item.weapon;
 
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
-
 public interface IAttachable {
     enum Status {
         TRUE, FALSE;
@@ -13,13 +11,13 @@ public interface IAttachable {
         }
     }
 
-    @Nullable Status getMag();
+    @NotNull Status getMag();
 
     @NotNull Status getBarrel();
 
-    @Nullable Status getStock();
+    @NotNull Status getStock();
 
-    @Nullable Status getOptic();
+    @NotNull Status getOptic();
 
-    @Nullable Status getHopUp();
+    @NotNull Status getHopUp();
 }

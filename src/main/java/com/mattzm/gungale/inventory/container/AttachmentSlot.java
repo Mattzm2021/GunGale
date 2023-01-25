@@ -11,14 +11,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class AttachmentSlot extends Slot {
-    protected static final ResourceLocation INCAPABLE_SLOT = new ResourceLocation(GunGale.MOD_ID, "item/incapable_slot");
-    private static final ResourceLocation EMPTY_MAG_SLOT = new ResourceLocation(GunGale.MOD_ID, "textures/item/empty_mag_slot.png");
-    private static final ResourceLocation EMPTY_BARREL_SLOT = new ResourceLocation(GunGale.MOD_ID, "item/empty_barrel_slot");
-    private static final ResourceLocation EMPTY_STOCK_SLOT = new ResourceLocation(GunGale.MOD_ID, "item/empty_stock_slot");
-    private static final ResourceLocation EMPTY_OPTIC_SLOT = new ResourceLocation(GunGale.MOD_ID, "item/empty_optic_slot");
-    private static final ResourceLocation EMPTY_SPECIAL_SLOT = new ResourceLocation(GunGale.MOD_ID, "item/empty_special_slot");
-    private static final ResourceLocation[] TEXTURE_EMPTY_SLOTS = {EMPTY_MAG_SLOT, EMPTY_BARREL_SLOT, EMPTY_STOCK_SLOT, EMPTY_OPTIC_SLOT, EMPTY_SPECIAL_SLOT};
-
+    public static final ResourceLocation INCAPABLE_SLOT = new ResourceLocation(GunGale.MOD_ID, "item/incapable_slot");
+    public static final ResourceLocation EMPTY_MAG_SLOT = new ResourceLocation(GunGale.MOD_ID, "item/empty_mag_slot");
+    public static final ResourceLocation EMPTY_BARREL_SLOT = new ResourceLocation(GunGale.MOD_ID, "item/empty_barrel_slot");
+    public static final ResourceLocation EMPTY_STOCK_SLOT = new ResourceLocation(GunGale.MOD_ID, "item/empty_stock_slot");
+    public static final ResourceLocation EMPTY_OPTIC_SLOT = new ResourceLocation(GunGale.MOD_ID, "item/empty_optic_slot");
+    public static final ResourceLocation EMPTY_HOP_UP_SLOT = new ResourceLocation(GunGale.MOD_ID, "item/empty_hop_up_slot");
+    private static final ResourceLocation[] TEXTURE_EMPTY_SLOTS = {EMPTY_MAG_SLOT, EMPTY_BARREL_SLOT, EMPTY_STOCK_SLOT, EMPTY_OPTIC_SLOT, EMPTY_HOP_UP_SLOT};
     protected final int weaponSlot;
     private final int textureIndex;
 

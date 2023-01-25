@@ -2,16 +2,14 @@ package com.mattzm.gungale.item.weapon;
 
 import com.mattzm.gungale.property.*;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class R301Carbine extends AbstractAutoWeaponItem {
     public R301Carbine(@NotNull BasicProperty basicProperty, @NotNull DamageProperty damageProperty, @NotNull RecoilProperty recoilProperty, @NotNull ReloadProperty reloadProperty, @NotNull ADSProperty adsProperty, @NotNull MagProperty magProperty, int mobility) {
         super(basicProperty, damageProperty, recoilProperty, reloadProperty, adsProperty, magProperty, mobility);
     }
 
-    @Nullable
     @Override
-    public Status getMag() {
+    public @NotNull Status getMag() {
         return Status.TRUE;
     }
 
@@ -20,22 +18,19 @@ public class R301Carbine extends AbstractAutoWeaponItem {
         return Status.TRUE;
     }
 
-    @Nullable
     @Override
-    public Status getStock() {
+    public @NotNull Status getStock() {
         return Status.TRUE;
     }
 
-    @Nullable
     @Override
-    public Status getOptic() {
+    public @NotNull Status getOptic() {
         return Status.TRUE;
     }
 
-    @Nullable
     @Override
-    public Status getHopUp() {
-        return Status.TRUE;
+    public @NotNull Status getHopUp() {
+        return Status.FALSE;
     }
 
     @Override

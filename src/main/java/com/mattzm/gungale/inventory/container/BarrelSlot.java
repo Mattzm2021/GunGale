@@ -2,7 +2,6 @@ package com.mattzm.gungale.inventory.container;
 
 import com.mattzm.gungale.item.BarrelItem;
 import com.mattzm.gungale.item.weapon.AbstractWeaponItem;
-import com.mattzm.gungale.item.weapon.IAttachable;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.PlayerContainer;
@@ -29,7 +28,7 @@ public class BarrelSlot extends AttachmentSlot {
     public @Nullable Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
         if (!this.container.getItem(this.weaponSlot).isEmpty()) {
             AbstractWeaponItem item = (AbstractWeaponItem) this.container.getItem(this.weaponSlot).getItem();
-            if (item.getBarrel() == IAttachable.Status.FALSE) {
+            if (!item.getBarrel().get()) {
                 return Pair.of(PlayerContainer.BLOCK_ATLAS, AttachmentSlot.INCAPABLE_SLOT);
             }
         }
