@@ -1,17 +1,21 @@
 package com.mattzm.gungale.handler;
 
 import com.mattzm.gungale.GunGale;
-import com.mattzm.gungale.block.ModBlocks;
+import com.mattzm.gungale.block.ModOreBlock;
+import com.mattzm.gungale.block.WeaponBenchBlock;
 import com.mattzm.gungale.inventory.container.ModContainerTypes;
 import com.mattzm.gungale.item.ModItems;
 import com.mattzm.gungale.item.crafting.ModRecipeSerializers;
 import com.mattzm.gungale.potion.ModEffects;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -86,10 +90,10 @@ public class RegistryHandler {
     }
 
     @SubscribeEvent
-    public static void registerBlock(RegistryEvent.@NotNull Register<Block> event) {
-        event.getRegistry().register(ModBlocks.SALTPETER_ORE);
-        event.getRegistry().register(ModBlocks.SULFUR_ORE);
-        event.getRegistry().register(ModBlocks.WEAPON_BENCH);
+    public static void registerBlock(final @NotNull RegistryEvent.Register<Block> event) {
+        event.getRegistry().register(new ModOreBlock(AbstractBlock.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0f).harvestTool(ToolType.PICKAXE).harvestLevel(1)).setRegistryName("saltpeter_ore"));
+        event.getRegistry().register(new ModOreBlock(AbstractBlock.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0f).harvestTool(ToolType.PICKAXE).harvestLevel(1)).setRegistryName("sulfur_ore"));
+        event.getRegistry().register(new WeaponBenchBlock(AbstractBlock.Properties.of(Material.METAL).strength(5.0f)).setRegistryName("weapon_bench"));
     }
 
     @SubscribeEvent

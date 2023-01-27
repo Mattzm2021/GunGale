@@ -10,22 +10,19 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.CraftResultInventory;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.CraftingResultSlot;
-import net.minecraft.inventory.container.RecipeBookContainer;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.*;
 import net.minecraft.network.play.server.SSetSlotPacket;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
 @VanillaCode
-public class WeaponBenchContainer extends RecipeBookContainer<CraftingInventory> {
+public class WeaponBenchContainer extends Container {
     private final CraftingInventory craftSlots = new CraftingInventory(this, 5, 3);
     private final CraftResultInventory resultSlots = new CraftResultInventory();
     private final IWorldPosCallable access;
@@ -65,7 +62,7 @@ public class WeaponBenchContainer extends RecipeBookContainer<CraftingInventory>
         if (world.getServer() == null) return;
         Optional<WeaponRecipe> optional = world.getServer().getRecipeManager().getRecipeFor(ModRecipeTypes.WEAPON, craftSlots, world);
         if (optional.isPresent()) {
-            ICraftingRecipe recipe = optional.get();
+            WeaponRecipe recipe = optional.get();
             if (resultSlots.setRecipeUsed(world, player1, recipe)) {
                 stack = recipe.assemble(craftSlots);
             }
@@ -78,22 +75,6 @@ public class WeaponBenchContainer extends RecipeBookContainer<CraftingInventory>
     @Override
     public void slotsChanged(@NotNull IInventory inventory) {
         this.access.execute((world, pos) -> slotChangedCraftingGrid(this.containerId, world, this.player, this.craftSlots, this.resultSlots));
-    }
-
-    @Override
-    public void fillCraftSlotsStackedContents(@NotNull RecipeItemHelper helper) {
-        this.craftSlots.fillStackedContents(helper);
-    }
-
-    @Override
-    public void clearCraftingContent() {
-        this.craftSlots.clearContent();
-        this.resultSlots.clearContent();
-    }
-
-    @Override
-    public boolean recipeMatches(@NotNull IRecipe<? super CraftingInventory> recipe) {
-        return recipe instanceof WeaponRecipe && recipe.matches(this.craftSlots, this.player.level);
     }
 
     @Override
@@ -157,32 +138,5 @@ public class WeaponBenchContainer extends RecipeBookContainer<CraftingInventory>
     @Override
     public boolean canTakeItemForPickAll(@NotNull ItemStack stack, @NotNull Slot slot) {
         return slot.container != this.resultSlots && super.canTakeItemForPickAll(stack, slot);
-    }
-
-    @Override
-    public int getResultSlotIndex() {
-        return 0;
-    }
-
-    @Override
-    public int getGridWidth() {
-        return this.craftSlots.getWidth();
-    }
-
-    @Override
-    public int getGridHeight() {
-        return this.craftSlots.getHeight();
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public int getSize() {
-        return 16;
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public @NotNull RecipeBookCategory getRecipeBookType() {
-        return RecipeBookCategory.CRAFTING;
     }
 }

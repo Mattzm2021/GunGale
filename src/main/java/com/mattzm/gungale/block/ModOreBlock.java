@@ -1,24 +1,24 @@
 package com.mattzm.gungale.block;
 
+import com.mattzm.gungale.util.VanillaCode;
 import net.minecraft.block.OreBlock;
-import net.minecraft.block.material.Material;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.common.ToolType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
+@VanillaCode("OreBlock")
 public class ModOreBlock extends OreBlock {
-    private final int minXpOnDrop, maxXpOnDrop;
-
-    public ModOreBlock(float strength, int harvestLevel, int minXpOnDrop, int maxXpOnDrop) {
-        super(Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(strength).harvestTool(ToolType.PICKAXE).harvestLevel(harvestLevel));
-        this.minXpOnDrop = minXpOnDrop;
-        this.maxXpOnDrop = maxXpOnDrop;
+    public ModOreBlock(Properties properties) {
+        super(properties);
     }
 
     @Override
     protected int xpOnDrop(@NotNull Random random) {
-        return MathHelper.nextInt(random, this.minXpOnDrop, this.maxXpOnDrop);
+        if (this == ModBlocks.SALTPETER_ORE) {
+            return MathHelper.nextInt(random, 0, 2);
+        } else {
+            return this == ModBlocks.SULFUR_ORE ? MathHelper.nextInt(random, 2, 5) : 0;
+        }
     }
 }

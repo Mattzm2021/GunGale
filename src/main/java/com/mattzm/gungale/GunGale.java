@@ -1,6 +1,5 @@
 package com.mattzm.gungale;
 
-import com.mattzm.gungale.client.gui.screen.ModScreenManager;
 import com.mattzm.gungale.client.object.ClientObjectHolder;
 import com.mattzm.gungale.message.play.MessageHandler;
 import net.minecraft.client.Minecraft;
@@ -19,14 +18,15 @@ public class GunGale {
 
     @SubscribeEvent
     public static void onCommonSetup(final FMLCommonSetupEvent event) {
-        MessageHandler.setupAll();
+        event.enqueueWork(MessageHandler::setupAll);
     }
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void onClientSetup(final @NotNull FMLClientSetupEvent event) {
-        Minecraft minecraft = event.getMinecraftSupplier().get();
-        new ClientObjectHolder(minecraft).setup();
-        ModScreenManager.setupScreen();
+        event.enqueueWork(() -> {
+            Minecraft minecraft = event.getMinecraftSupplier().get();
+            new ClientObjectHolder(minecraft).setup();
+        });
     }
 }

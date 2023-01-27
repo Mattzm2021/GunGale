@@ -2,27 +2,21 @@ package com.mattzm.gungale.client.gui.screen.inventory;
 
 import com.mattzm.gungale.GunGale;
 import com.mattzm.gungale.inventory.container.WeaponBenchContainer;
+import com.mattzm.gungale.util.VanillaCode;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.recipebook.IRecipeShownListener;
-import net.minecraft.client.gui.recipebook.RecipeBookGui;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.ClickType;
-import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
+@VanillaCode("CraftingScreen")
 @OnlyIn(Dist.CLIENT)
-public class WeaponBenchScreen extends ContainerScreen<WeaponBenchContainer> implements IRecipeShownListener {
+public class WeaponBenchScreen extends ContainerScreen<WeaponBenchContainer> {
     private static final ResourceLocation WEAPON_BENCH_LOCATION = new ResourceLocation(GunGale.MOD_ID, "textures/gui/container/weapon_bench.png");
-    private static final ResourceLocation RECIPE_BUTTON_LOCATION = new ResourceLocation("textures/gui/recipe_button.png");
-    private final RecipeBookGui recipeBookComponent = new RecipeBookGui();
-    private boolean widthTooNarrow;
 
     public WeaponBenchScreen(WeaponBenchContainer container, PlayerInventory inventory, ITextComponent component) {
         super(container, inventory, component);
@@ -31,41 +25,14 @@ public class WeaponBenchScreen extends ContainerScreen<WeaponBenchContainer> imp
     @Override
     protected void init() {
         super.init();
-        if (this.minecraft == null) return;
-        this.widthTooNarrow = this.width < 379;
-        this.recipeBookComponent.init(this.width, this.height, this.minecraft, this.widthTooNarrow, this.menu);
-        this.leftPos = this.recipeBookComponent.updateScreenPosition(this.widthTooNarrow, this.width, this.imageWidth);
-        this.children.add(this.recipeBookComponent);
-        this.setInitialFocus(this.recipeBookComponent);
-        this.addButton(new ImageButton(this.leftPos + 5, this.height / 2 - 49, 20, 18, 0, 0, 19, RECIPE_BUTTON_LOCATION, (button) -> {
-            this.recipeBookComponent.initVisuals(this.widthTooNarrow);
-            this.recipeBookComponent.toggleVisibility();
-            this.leftPos = this.recipeBookComponent.updateScreenPosition(this.widthTooNarrow, this.width, this.imageWidth);
-            ((ImageButton) button).setPosition(this.leftPos + 5, this.height / 2 - 49);
-        }));
         this.titleLabelX = 11;
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-        this.recipeBookComponent.tick();
     }
 
     @Override
     public void render(@NotNull MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
-        if (this.recipeBookComponent.isVisible() && this.widthTooNarrow) {
-            this.renderBg(matrixStack, partialTicks, mouseX, mouseY);
-            this.recipeBookComponent.render(matrixStack, mouseX, mouseY, partialTicks);
-        } else {
-            this.recipeBookComponent.render(matrixStack, mouseX, mouseY, partialTicks);
-            super.render(matrixStack, mouseX, mouseY, partialTicks);
-            this.recipeBookComponent.renderGhostRecipe(matrixStack, this.leftPos, this.topPos, true, partialTicks);
-        }
-
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.renderTooltip(matrixStack, mouseX, mouseY);
-        this.recipeBookComponent.renderTooltip(matrixStack, this.leftPos, this.topPos, mouseX, mouseY);
     }
 
     @SuppressWarnings("deprecation")
@@ -74,51 +41,8 @@ public class WeaponBenchScreen extends ContainerScreen<WeaponBenchContainer> imp
         if (this.minecraft == null) return;
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
         this.minecraft.textureManager.bind(WEAPON_BENCH_LOCATION);
-        int x = (this.width - this.imageWidth) / 2;
+        int x = this.leftPos;
         int y = (this.height - this.imageHeight) / 2;
         this.blit(stack, x, y, 0, 0, this.imageWidth, this.imageHeight);
-    }
-
-    @Override
-    protected boolean isHovering(int slotX, int slotY, int gridWidth, int gridHeight, double mouseX, double mouseY) {
-        return (!this.widthTooNarrow || !this.recipeBookComponent.isVisible()) && super.isHovering(slotX, slotY, gridWidth, gridHeight, mouseX, mouseY);
-    }
-
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int buttonId) {
-        if (this.recipeBookComponent.mouseClicked(mouseX, mouseY, buttonId)) {
-            this.setFocused(this.recipeBookComponent);
-            return true;
-        } else {
-            return this.widthTooNarrow && this.recipeBookComponent.isVisible() || super.mouseClicked(mouseX, mouseY, buttonId);
-        }
-    }
-
-    @Override
-    protected boolean hasClickedOutside(double mouseX, double mouseY, int leftPos, int topPos, int buttonId) {
-        boolean flag = mouseX < (double) leftPos || mouseY < (double) topPos || mouseX >= (double) (leftPos + this.imageWidth) || mouseY >= (double) (topPos + this.imageHeight);
-        return this.recipeBookComponent.hasClickedOutside(mouseX, mouseY, this.leftPos, this.topPos, this.imageWidth, this.imageHeight, buttonId) && flag;
-    }
-
-    @Override
-    protected void slotClicked(@NotNull Slot slot, int slotId, int buttonId, @NotNull ClickType clickType) {
-        super.slotClicked(slot, slotId, buttonId, clickType);
-        this.recipeBookComponent.slotClicked(slot);
-    }
-
-    @Override
-    public void recipesUpdated() {
-        this.recipeBookComponent.recipesUpdated();
-    }
-
-    @Override
-    public void removed() {
-        this.recipeBookComponent.removed();
-        super.removed();
-    }
-
-    @Override
-    public @NotNull RecipeBookGui getRecipeBookComponent() {
-        return this.recipeBookComponent;
     }
 }

@@ -2,11 +2,14 @@ package com.mattzm.gungale.integration.jei;
 
 import com.mattzm.gungale.GunGale;
 import com.mattzm.gungale.block.ModBlocks;
+import com.mattzm.gungale.client.gui.screen.ModCraftingScreen;
 import com.mattzm.gungale.client.gui.screen.inventory.WeaponBenchScreen;
+import com.mattzm.gungale.inventory.container.ModWorkbenchContainer;
 import com.mattzm.gungale.inventory.container.WeaponBenchContainer;
 import com.mattzm.gungale.item.crafting.ModRecipeTypes;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.VanillaRecipeCategoryUid;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.registration.*;
@@ -53,11 +56,13 @@ public class GunGaleJei implements IModPlugin {
     @Override
     public void registerGuiHandlers(@NotNull IGuiHandlerRegistration registration) {
         registration.addRecipeClickArea(WeaponBenchScreen.class, 106, 32, 28, 23, WeaponRecipeCategory.UID);
+        registration.addRecipeClickArea(ModCraftingScreen.class, 88, 32, 28, 23, VanillaRecipeCategoryUid.CRAFTING);
     }
 
     @Override
     public void registerRecipeTransferHandlers(@NotNull IRecipeTransferRegistration registration) {
         registration.addRecipeTransferHandler(WeaponBenchContainer.class, WeaponRecipeCategory.UID, 1, 15, 16, 36);
+        registration.addRecipeTransferHandler(ModWorkbenchContainer.class, VanillaRecipeCategoryUid.CRAFTING, 1, 9, 10, 46);
     }
 
     @Override

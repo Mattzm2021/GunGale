@@ -3,6 +3,7 @@ package com.mattzm.gungale.client.gui.screen;
 import com.mattzm.gungale.GunGale;
 import com.mattzm.gungale.client.settings.ModSettings;
 import com.mattzm.gungale.inventory.container.ModWorkbenchContainer;
+import com.mattzm.gungale.util.VanillaCode;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.recipebook.IRecipeShownListener;
@@ -15,8 +16,12 @@ import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
+@VanillaCode("CraftingScreen")
+@OnlyIn(Dist.CLIENT)
 public class ModCraftingScreen extends ContainerScreen<ModWorkbenchContainer> implements IRecipeShownListener {
     private static final ResourceLocation MOD_CRAFTING_TABLE_LOCATION = new ResourceLocation(GunGale.MOD_ID, "textures/gui/container/mod_crafting_table.png");
     private static final ResourceLocation RECIPE_BUTTON_LOCATION = new ResourceLocation("textures/gui/recipe_button.png");
@@ -24,27 +29,26 @@ public class ModCraftingScreen extends ContainerScreen<ModWorkbenchContainer> im
     private boolean widthTooNarrow;
     private boolean modActive = false;
 
-    public ModCraftingScreen(ModWorkbenchContainer container, PlayerInventory inventory, ITextComponent text) {
-        super(container, inventory, text);
+    public ModCraftingScreen(ModWorkbenchContainer container, PlayerInventory inventory, ITextComponent component) {
+        super(container, inventory, component);
     }
 
     @Override
     protected void init() {
         super.init();
-        if (this.minecraft != null) {
-            this.widthTooNarrow = this.width < 379;
-            this.recipeBookComponent.init(this.width, this.height, this.minecraft, this.widthTooNarrow, this.menu);
+        if (this.minecraft == null) return;
+        this.widthTooNarrow = this.width < 379;
+        this.recipeBookComponent.init(this.width, this.height, this.minecraft, this.widthTooNarrow, this.menu);
+        this.leftPos = this.recipeBookComponent.updateScreenPosition(this.widthTooNarrow, this.width, this.imageWidth);
+        this.children.add(this.recipeBookComponent);
+        this.setInitialFocus(this.recipeBookComponent);
+        this.addButton(new ImageButton(this.leftPos + 5, this.height / 2 - 49, 20, 18, 0, 0, 19, RECIPE_BUTTON_LOCATION, (button) -> {
+            this.recipeBookComponent.initVisuals(this.widthTooNarrow);
+            this.recipeBookComponent.toggleVisibility();
             this.leftPos = this.recipeBookComponent.updateScreenPosition(this.widthTooNarrow, this.width, this.imageWidth);
-            this.children.add(this.recipeBookComponent);
-            this.setInitialFocus(this.recipeBookComponent);
-            this.addButton(new ImageButton(this.leftPos + 5, this.height / 2 - 49, 20, 18, 0, 0, 19, RECIPE_BUTTON_LOCATION, (button) -> {
-                this.recipeBookComponent.initVisuals(this.widthTooNarrow);
-                this.recipeBookComponent.toggleVisibility();
-                this.leftPos = this.recipeBookComponent.updateScreenPosition(this.widthTooNarrow, this.width, this.imageWidth);
-                ((ImageButton) button).setPosition(this.leftPos + 5, this.height / 2 - 49);
-            }));
-            this.titleLabelX = 29;
-        }
+            ((ImageButton) button).setPosition(this.leftPos + 5, this.height / 2 - 49);
+        }));
+        this.titleLabelX = 29;
     }
 
     @Override
@@ -72,48 +76,49 @@ public class ModCraftingScreen extends ContainerScreen<ModWorkbenchContainer> im
     @SuppressWarnings("deprecation")
     @Override
     protected void renderBg(@NotNull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+        if (this.minecraft == null) return;
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
-        if (this.minecraft != null) {
-            this.minecraft.getTextureManager().bind(MOD_CRAFTING_TABLE_LOCATION);
-            blit(matrixStack, this.leftPos, (this.height - this.imageHeight) / 2, this.modActive ? this.imageWidth : 0, 0, this.imageWidth, this.imageHeight, 512, 512);
-        }
+        this.minecraft.textureManager.bind(MOD_CRAFTING_TABLE_LOCATION);
+        int x = this.leftPos;
+        int y = (this.height - this.imageHeight) / 2;
+        blit(matrixStack, x, y, this.modActive ? this.imageWidth : 0, 0, this.imageWidth, this.imageHeight, 512, 512);
     }
 
     @Override
-    protected void renderLabels(@NotNull MatrixStack p_230451_1_, int p_230451_2_, int p_230451_3_) {
+    protected void renderLabels(@NotNull MatrixStack matrixStack, int mouseX, int mouseY) {
         if (this.modActive) {
-            this.font.draw(p_230451_1_, this.title, (float) this.titleLabelX, (float) this.titleLabelY, 4210752);
-            this.font.draw(p_230451_1_, this.menu.inventory.getDisplayName(), (float) this.inventoryLabelX, (float) this.inventoryLabelY, 4210752);
+            this.font.draw(matrixStack, this.title, (float) this.titleLabelX, (float) this.titleLabelY, 4210752);
+            this.font.draw(matrixStack, this.menu.inventory.getDisplayName(), (float) this.inventoryLabelX, (float) this.inventoryLabelY, 4210752);
         } else {
-            super.renderLabels(p_230451_1_, p_230451_2_, p_230451_3_);
+            super.renderLabels(matrixStack, mouseX, mouseY);
         }
     }
 
     @Override
-    protected boolean isHovering(int slotX, int slotY, int p_195359_3_, int p_195359_4_, double mouseX, double mouseY) {
-        return (!this.widthTooNarrow || !this.recipeBookComponent.isVisible()) && super.isHovering(slotX, slotY, p_195359_3_, p_195359_4_, mouseX, mouseY);
+    protected boolean isHovering(int slotX, int slotY, int gridWidth, int gridHeight, double mouseX, double mouseY) {
+        return (!this.widthTooNarrow || !this.recipeBookComponent.isVisible()) && super.isHovering(slotX, slotY, gridWidth, gridHeight, mouseX, mouseY);
     }
 
     @Override
-    public boolean mouseClicked(double p_231044_1_, double p_231044_3_, int p_231044_5_) {
-        if (this.recipeBookComponent.mouseClicked(p_231044_1_, p_231044_3_, p_231044_5_)) {
+    public boolean mouseClicked(double mouseX, double mouseY, int buttonId) {
+        if (this.recipeBookComponent.mouseClicked(mouseX, mouseY, buttonId)) {
             this.setFocused(this.recipeBookComponent);
             return true;
         } else {
-            return this.widthTooNarrow && this.recipeBookComponent.isVisible() || super.mouseClicked(p_231044_1_, p_231044_3_, p_231044_5_);
+            return this.widthTooNarrow && this.recipeBookComponent.isVisible() || super.mouseClicked(mouseX, mouseY, buttonId);
         }
     }
 
     @Override
-    protected boolean hasClickedOutside(double p_195361_1_, double p_195361_3_, int p_195361_5_, int p_195361_6_, int p_195361_7_) {
-        boolean flag = p_195361_1_ < (double)p_195361_5_ || p_195361_3_ < (double)p_195361_6_ || p_195361_1_ >= (double)(p_195361_5_ + this.imageWidth) || p_195361_3_ >= (double)(p_195361_6_ + this.imageHeight);
-        return this.recipeBookComponent.hasClickedOutside(p_195361_1_, p_195361_3_, this.leftPos, this.topPos, this.imageWidth, this.imageHeight, p_195361_7_) && flag;
+    protected boolean hasClickedOutside(double mouseX, double mouseY, int leftPos, int topPos, int buttonId) {
+        boolean flag = mouseX < (double) leftPos || mouseY < (double) topPos || mouseX >= (double) (leftPos + this.imageWidth) || mouseY >= (double) (topPos + this.imageHeight);
+        return this.recipeBookComponent.hasClickedOutside(mouseX, mouseY, this.leftPos, this.topPos, this.imageWidth, this.imageHeight, buttonId) && flag;
     }
 
     @Override
-    protected void slotClicked(@NotNull Slot p_184098_1_, int p_184098_2_, int p_184098_3_, @NotNull ClickType p_184098_4_) {
-        super.slotClicked(p_184098_1_, p_184098_2_, p_184098_3_, p_184098_4_);
-        this.recipeBookComponent.slotClicked(p_184098_1_);
+    protected void slotClicked(@NotNull Slot slot, int slotId, int buttonId, @NotNull ClickType clickType) {
+        super.slotClicked(slot, slotId, buttonId, clickType);
+        this.recipeBookComponent.slotClicked(slot);
     }
 
     @Override
