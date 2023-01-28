@@ -59,6 +59,9 @@ public class ModInventoryScreen extends ContainerScreen<ModItemContainer> {
         this.renderTooltip(matrixStack, mouseX, mouseY);
     }
 
+    @Override
+    protected void renderLabels(@NotNull MatrixStack p_230451_1_, int p_230451_2_, int p_230451_3_) {}
+
     @SuppressWarnings("deprecation")
     @Override
     protected void renderBg(@NotNull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {

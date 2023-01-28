@@ -2,13 +2,13 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "gungale:heavy_mag_3"
+      "item": "gungale:barrel_stabilizer_3"
     },
     {
       "item": "minecraft:netherite_ingot"
     }
   ],
   "result": {
-    "item": "gungale:heavy_mag_4"
+    "item": "gungale:barrel_stabilizer_4"
   }
 }

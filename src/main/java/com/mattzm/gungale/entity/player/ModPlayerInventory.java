@@ -203,6 +203,12 @@ public class ModPlayerInventory implements INamedContainerProvider, IInventory, 
                 stack.setCount(0);
                 return true;
             }
+        } else if (stack.getItem() instanceof HopUpItem) {
+            if (this.getFreeHopUpSlot() != -1) {
+                this.setItem(this.getFreeHopUpSlot(), stack.copy());
+                stack.setCount(0);
+                return true;
+            }
         }
 
         return this.add(stack);
@@ -288,6 +294,22 @@ public class ModPlayerInventory implements INamedContainerProvider, IInventory, 
         if (!this.getItem(6).isEmpty()) {
             if (this.getItem(10).isEmpty()) {
                 return 10;
+            }
+        }
+
+        return -1;
+    }
+
+    public int getFreeHopUpSlot() {
+        if (!this.getItem(0).isEmpty()) {
+            if (this.getItem(5).isEmpty()) {
+                return 5;
+            }
+        }
+
+        if (!this.getItem(6).isEmpty()) {
+            if (this.getItem(11).isEmpty()) {
+                return 11;
             }
         }
 

@@ -13,6 +13,6 @@ public abstract class AbstractDelayedWeaponItem extends AbstractEnergyWeaponItem
 
     @Override
     public boolean canFire(PlayerEntity player, ItemStack stack) {
-        return super.canFire(player, stack) && FireNBT.getTick(player) > this.getDelayTick();
+        return super.canFire(player, stack) && FireNBT.getTick(player) > this.getDelayTick(player, stack);
     }
 }

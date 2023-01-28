@@ -10,7 +10,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @VanillaCode("ScreenManager")
 @OnlyIn(Dist.CLIENT)
 public class ModScreenManager {
-    static {
+    public static void registerScreens() {
         ScreenManager.register(ModContainerTypes.MOD_INVENTORY, ModInventoryScreen::new);
         ScreenManager.register(ModContainerTypes.MOD_CRAFTING, ModCraftingScreen::new);
         ScreenManager.register(ModContainerTypes.WEAPON_BENCH, WeaponBenchScreen::new);

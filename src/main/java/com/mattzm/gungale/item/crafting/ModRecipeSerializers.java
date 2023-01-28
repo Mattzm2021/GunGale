@@ -1,16 +1,12 @@
 package com.mattzm.gungale.item.crafting;
 
 import com.mattzm.gungale.GunGale;
-import net.minecraft.item.crafting.IRecipe;
+import com.mattzm.gungale.util.VanillaCode;
 import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.util.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
+import net.minecraftforge.registries.ObjectHolder;
 
+@VanillaCode("IRecipeSerializer")
+@ObjectHolder(GunGale.MOD_ID)
 public class ModRecipeSerializers {
-    public static IRecipeSerializer<WeaponRecipe> WEAPON_RECIPE = register("crafting_weapon", new WeaponRecipe.Serializer());
-
-    static <S extends IRecipeSerializer<T>, T extends IRecipe<?>> @NotNull S register(String location, @NotNull S recipe) {
-        recipe.setRegistryName(new ResourceLocation(GunGale.MOD_ID, location));
-        return recipe;
-    }
+    public static final IRecipeSerializer<WeaponRecipe> WEAPON_RECIPE = null;
 }

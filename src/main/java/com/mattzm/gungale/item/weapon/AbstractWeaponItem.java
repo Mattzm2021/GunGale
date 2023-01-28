@@ -93,12 +93,13 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
     @OnlyIn(Dist.CLIENT)
     public void executeFire(World world, PlayerEntity player) {
         FireTarget target = this.getNearestTarget(world, player);
+        float damage = this.getDamage(target, player, ModPlayerInventory.get(player).getSelected());
         if (target == FireTarget.BLOCK) {
             MessageHandler.sendToServer(new CBlockHitMessage(target.position));
-        } else if (target == FireTarget.ENTITY && target.damageType.getDamage(this) * target.damageAmplifier > 0.0f) {
-            MessageHandler.sendToServer(new CEntityHitMessage(target.entity.getId(), target.damageType.getDamage(this) * target.damageAmplifier));
+        } else if (target == FireTarget.ENTITY && damage > 0.0f) {
+            MessageHandler.sendToServer(new CEntityHitMessage(target.entity.getId(), damage));
             if (!target.entity.isDeadOrDying()) {
-                ClientObjectHolder.getInstance().getMIngameGui().setMainDamageText(ModProjectileHelper.getTextByDamage(target.damageType.getDamage(this) * target.damageAmplifier, player, target.entity, target.damageType));
+                ClientObjectHolder.getInstance().getMIngameGui().setMainDamageText(ModProjectileHelper.getTextByDamage(damage, player, target.entity, target.damageType));
                 ClientObjectHolder.getInstance().getMIngameGui().setMainDamagePos(player.xRot, player.yRot);
                 if (target.entity instanceof PlayerEntity) {
                     if (!((PlayerEntity) target.entity).isCreative()) {
@@ -109,6 +110,10 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
                 }
             }
         }
+    }
+
+    protected float getDamage(@NotNull FireTarget target, PlayerEntity player, ItemStack stack) {
+        return target.damageType.getDamage(this) * target.damageAmplifier;
     }
 
     public void executeReload(@NotNull PlayerEntity player, ItemStack itemStack) {
