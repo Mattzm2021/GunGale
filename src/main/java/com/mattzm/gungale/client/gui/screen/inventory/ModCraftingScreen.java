@@ -1,4 +1,4 @@
-package com.mattzm.gungale.client.gui.screen;
+package com.mattzm.gungale.client.gui.screen.inventory;
 
 import com.mattzm.gungale.GunGale;
 import com.mattzm.gungale.client.settings.ModSettings;
@@ -138,14 +138,14 @@ public class ModCraftingScreen extends ContainerScreen<ModWorkbenchContainer> im
     }
 
     @Override
-    public boolean keyPressed(int p_231046_1_, int p_231046_2_, int p_231046_3_) {
-        InputMappings.Input mouseKey = InputMappings.getKey(p_231046_1_, p_231046_2_);
+    public boolean keyPressed(int buttonId, int scancode, int modifier) {
+        InputMappings.Input mouseKey = InputMappings.getKey(buttonId, scancode);
         if (this.minecraft == null) {
             return false;
         } else if (this.minecraft.options.keyInventory.isActiveAndMatches(mouseKey) && this.modActive) {
             this.setToDefault();
             return true;
-        } else if (super.keyPressed(p_231046_1_, p_231046_2_, p_231046_3_)) {
+        } else if (super.keyPressed(buttonId, scancode, modifier)) {
             return true;
         } else if (ModSettings.KEY_INVENTORY.isActiveAndMatches(mouseKey) && !this.modActive) {
             this.setToMod();

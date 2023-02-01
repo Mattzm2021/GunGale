@@ -18,13 +18,6 @@ public class ColoredText {
         this.margin = margin;
     }
 
-    public void baseOn(@NotNull ColoredText coloredText) {
-        this.inner = coloredText.inner;
-        this.outer = coloredText.outer;
-        this.size = coloredText.size;
-        this.margin = coloredText.margin;
-    }
-
     public ColoredText baseOn(float size, float margin) {
         return new ColoredText(this.text, this.inner, this.outer, size, margin);
     }

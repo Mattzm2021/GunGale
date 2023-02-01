@@ -1,6 +1,6 @@
 package com.mattzm.gungale;
 
-import com.mattzm.gungale.client.gui.screen.ModScreenManager;
+import com.mattzm.gungale.client.gui.ModScreenManager;
 import com.mattzm.gungale.client.object.ClientObjectHolder;
 import com.mattzm.gungale.message.play.MessageHandler;
 import net.minecraft.client.Minecraft;

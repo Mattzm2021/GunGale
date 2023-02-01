@@ -1,7 +1,10 @@
 package com.mattzm.gungale.item.weapon;
 
+import com.mattzm.gungale.item.AmmoItem;
+import com.mattzm.gungale.item.ModItems;
 import com.mattzm.gungale.property.*;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class HemlokBurstAR extends AbstractThreeRounded {
     public HemlokBurstAR(@NotNull BasicProperty basicProperty, @NotNull DamageProperty damageProperty, @NotNull RecoilProperty recoilProperty, @NotNull ReloadProperty reloadProperty, @NotNull ADSProperty adsProperty, @NotNull MagProperty magProperty, int mobility) {
@@ -9,32 +12,27 @@ public class HemlokBurstAR extends AbstractThreeRounded {
     }
 
     @Override
-    public @NotNull Status getMag() {
-        return Status.TRUE;
+    public boolean getBarrel() {
+        return true;
     }
 
     @Override
-    public @NotNull Status getBarrel() {
-        return Status.TRUE;
+    public IMagProvider.@Nullable Type getMag() {
+        return IMagProvider.Type.HEAVY;
     }
 
     @Override
-    public @NotNull Status getStock() {
-        return Status.TRUE;
+    public IOpticProvider.@Nullable Type getOptic() {
+        return IOpticProvider.Type.MIDDLE;
     }
 
     @Override
-    public @NotNull Status getOptic() {
-        return Status.TRUE;
+    public IStockProvider.@Nullable Type getStock() {
+        return IStockProvider.Type.HEAVY;
     }
 
     @Override
-    public @NotNull Status getHopUp() {
-        return Status.FALSE;
-    }
-
-    @Override
-    public @NotNull AmmoType getBullet() {
-        return AmmoType.HEAVY;
+    public @NotNull AmmoItem getBullet() {
+        return (AmmoItem) ModItems.HEAVY_ROUNDS;
     }
 }

@@ -2,7 +2,7 @@ package com.mattzm.gungale.integration.jei;
 
 import com.mattzm.gungale.GunGale;
 import com.mattzm.gungale.block.ModBlocks;
-import com.mattzm.gungale.client.gui.screen.ModCraftingScreen;
+import com.mattzm.gungale.client.gui.screen.inventory.ModCraftingScreen;
 import com.mattzm.gungale.client.gui.screen.inventory.WeaponBenchScreen;
 import com.mattzm.gungale.inventory.container.ModWorkbenchContainer;
 import com.mattzm.gungale.inventory.container.WeaponBenchContainer;

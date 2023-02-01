@@ -9,12 +9,10 @@ import com.mattzm.gungale.item.RestoreItem;
 import com.mattzm.gungale.item.weapon.AbstractWeaponItem;
 import com.mattzm.gungale.nbt.stack.OpticNBT;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
 import net.minecraft.world.GameType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -39,7 +37,7 @@ public class RenderHandler {
                 if (player != null && !ModPlayerInventory.get(player).getSelected().isEmpty()) {
                     for (int i = 0; i < OpticItem.MAGNIFICATION_FOV.length; i++) {
                         if (Minecraft.getInstance().options.fov == OpticItem.MAGNIFICATION_FOV[i] && OpticNBT.get(ModPlayerInventory.get(player).getSelected()) == i) {
-                            int index = ModPlayerInventory.get(player).selected + 4;
+                            int index = ModPlayerInventory.get(player).selected + 3;
                             ItemStack stack = ModPlayerInventory.get(player).getItem(index);
                             OpticItem item = stack.isEmpty() ? null : (OpticItem) stack.getItem();
                             ClientObjectHolder.getInstance().getMIngameGui().renderAds(item, event.getMatrixStack());

@@ -1,23 +1,31 @@
 package com.mattzm.gungale.item.weapon;
 
-import org.jetbrains.annotations.NotNull;
+import com.mattzm.gungale.item.HopUpItem;
+import org.jetbrains.annotations.Nullable;
 
-public interface IAttachable {
-    enum Status {
-        TRUE, FALSE;
-
-        public boolean get() {
-            return this == TRUE;
-        }
+public interface IAttachable extends IBarrelProvider, IMagProvider, IOpticProvider, IStockProvider, IHopUpProvider {
+    @Override
+    default boolean getBarrel() {
+        return false;
     }
 
-    @NotNull Status getMag();
+    @Override
+    default IMagProvider.@Nullable Type getMag() {
+        return null;
+    }
 
-    @NotNull Status getBarrel();
+    @Override
+    default IOpticProvider.@Nullable Type getOptic() {
+        return null;
+    }
 
-    @NotNull Status getStock();
+    @Override
+    default IStockProvider.@Nullable Type getStock() {
+        return null;
+    }
 
-    @NotNull Status getOptic();
-
-    @NotNull Status getHopUp();
+    @Override
+    default @Nullable HopUpItem getHopUp() {
+        return null;
+    }
 }

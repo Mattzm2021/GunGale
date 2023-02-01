@@ -32,6 +32,14 @@ public class ModItems {
     public static final Item HEAVY_MAG_2 = null;
     public static final Item HEAVY_MAG_3 = null;
     public static final Item HEAVY_MAG_4 = null;
+    public static final Item LIGHT_MAG_1 = null;
+    public static final Item LIGHT_MAG_2 = null;
+    public static final Item LIGHT_MAG_3 = null;
+    public static final Item LIGHT_MAG_4 = null;
+    public static final Item ENERGY_MAG_1 = null;
+    public static final Item ENERGY_MAG_2 = null;
+    public static final Item ENERGY_MAG_3 = null;
+    public static final Item ENERGY_MAG_4 = null;
     public static final Item BARREL_STABILIZER_1 = null;
     public static final Item BARREL_STABILIZER_2 = null;
     public static final Item BARREL_STABILIZER_3 = null;

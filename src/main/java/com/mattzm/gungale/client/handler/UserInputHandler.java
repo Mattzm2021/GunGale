@@ -61,7 +61,7 @@ public class UserInputHandler {
         }
 
         if (ModSettings.KEY_SWAP_OPTIC.consumeClick()) {
-            ItemStack stack = inventory.getItem(inventory.selected + 4);
+            ItemStack stack = inventory.getItem(inventory.selected + 3);
             if (stack.getItem() instanceof VariableOpticItem) {
                 VariableOpticItem opticItem = (VariableOpticItem) stack.getItem();
                 ADSNBT.setFov(player, Minecraft.getInstance().options.fov);

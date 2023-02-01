@@ -1,5 +1,7 @@
-package com.mattzm.gungale.client.gui.screen;
+package com.mattzm.gungale.client.gui;
 
+import com.mattzm.gungale.client.gui.screen.inventory.ModCraftingScreen;
+import com.mattzm.gungale.client.gui.screen.inventory.ModInventoryScreen;
 import com.mattzm.gungale.client.gui.screen.inventory.WeaponBenchScreen;
 import com.mattzm.gungale.inventory.container.ModContainerTypes;
 import com.mattzm.gungale.util.VanillaCode;

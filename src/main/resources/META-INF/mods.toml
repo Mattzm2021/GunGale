@@ -9,9 +9,7 @@ logoFile="gungale.png"
 credits="GunGale Test Group Members"
 authors="Matthew Tseng"
 description='''
-
     This is a mod filled with guns
-
 '''
 [[dependencies.gungale]]
     modId="forge"

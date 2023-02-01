@@ -69,10 +69,8 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
     public final RecoilProperty recoilProperty;
     public final DamageProperty damageProperty;
 
-    protected AbstractWeaponItem(@NotNull BasicProperty basicProperty, @NotNull DamageProperty damageProperty, @NotNull RecoilProperty recoilProperty,
-                                 @NotNull ReloadProperty reloadProperty, @NotNull ADSProperty adsProperty, @NotNull MagProperty magProperty, int mobility) {
+    protected AbstractWeaponItem(@NotNull BasicProperty basicProperty, @NotNull DamageProperty damageProperty, @NotNull RecoilProperty recoilProperty, @NotNull ReloadProperty reloadProperty, @NotNull ADSProperty adsProperty, @NotNull MagProperty magProperty, int mobility) {
         super(new Item.Properties().tab(ModItemGroup.TAB_WEAPON).stacksTo(1));
-
         this.bodyDamage = basicProperty.bodyDamage;
         this.rateOfFire = basicProperty.rateOfFire;
         this.precision = basicProperty.precision;
@@ -93,10 +91,11 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
     @OnlyIn(Dist.CLIENT)
     public void executeFire(World world, PlayerEntity player) {
         FireTarget target = this.getNearestTarget(world, player);
-        float damage = this.getDamage(target, player, ModPlayerInventory.get(player).getSelected());
         if (target == FireTarget.BLOCK) {
             MessageHandler.sendToServer(new CBlockHitMessage(target.position));
-        } else if (target == FireTarget.ENTITY && damage > 0.0f) {
+        } else if (target == FireTarget.ENTITY) {
+            float damage = this.getDamage(target, player, ModPlayerInventory.get(player).getSelected());
+            if (damage < 0.0f) return;
             MessageHandler.sendToServer(new CEntityHitMessage(target.entity.getId(), damage));
             if (!target.entity.isDeadOrDying()) {
                 ClientObjectHolder.getInstance().getMIngameGui().setMainDamageText(ModProjectileHelper.getTextByDamage(damage, player, target.entity, target.damageType));
@@ -199,14 +198,14 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
     private void checkAndUpdateBullet(int index, ItemStack stack, @NotNull PlayerEntity player) {
         if (!player.level.isClientSide) {
             int bullet = this.magazineSize;
-            if (!ModPlayerInventory.get(player).getItem(index + 1).isEmpty()) {
-                bullet = ((MagItem) ModPlayerInventory.get(player).getItem(index + 1).getItem()).getMagazineSize(stack);
+            if (!ModPlayerInventory.get(player).getItem(index + 2).isEmpty()) {
+                bullet = ((MagItem) ModPlayerInventory.get(player).getItem(index + 2).getItem()).getMagazineSize(stack);
             }
 
             if (BulletNBT.get(stack) > bullet) {
                 int count = BulletNBT.get(stack) - bullet;
                 BulletNBT.set(stack, bullet);
-                ModPlayerInventory.get(player).add(new ItemStack(this.getBullet().get(), count));
+                ModPlayerInventory.get(player).add(new ItemStack(this.getBullet(), count));
             }
         }
     }
@@ -214,12 +213,12 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
     private void checkAndUpdatePrecision(int index, ItemStack stack, @NotNull PlayerEntity player) {
         if (!player.level.isClientSide) {
             int precision = this.precision;
-            if (!ModPlayerInventory.get(player).getItem(index + 2).isEmpty()) {
-                precision += ((BarrelItem) ModPlayerInventory.get(player).getItem(index + 2).getItem()).getPrecisionIncrease(stack);
+            if (!ModPlayerInventory.get(player).getItem(index + 1).isEmpty()) {
+                precision += ((BarrelItem) ModPlayerInventory.get(player).getItem(index + 1).getItem()).getPrecisionIncrease(stack);
             }
 
-            if (!ModPlayerInventory.get(player).getItem(index + 3).isEmpty()) {
-                precision += ((StockItem) ModPlayerInventory.get(player).getItem(index + 3).getItem()).getPrecisionIncrease(stack);
+            if (!ModPlayerInventory.get(player).getItem(index + 4).isEmpty()) {
+                precision += ((StockItem) ModPlayerInventory.get(player).getItem(index + 4).getItem()).getPrecisionIncrease(stack);
             }
 
             PrecisionNBT.set(stack, precision);
@@ -228,15 +227,15 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
 
     private void checkAndUpdateOptic(int index, ItemStack stack, @NotNull PlayerEntity player) {
         if (!player.level.isClientSide) {
-            ItemStack stack1 = ModPlayerInventory.get(player).getItem(index + 4);
+            ItemStack stack1 = ModPlayerInventory.get(player).getItem(index + 3);
             if (stack1.isEmpty()) {
                 OpticNBT.set(stack, 0);
             } else if (stack1.getItem() instanceof VariableOpticItem) {
                 if (OpticNBT.get(stack) != ((VariableOpticItem) stack1.getItem()).getSmallerInt() && OpticNBT.get(stack) != ((VariableOpticItem) stack1.getItem()).getLargerInt()) {
-                    OpticNBT.set(stack, ((OpticItem) stack1.getItem()).magnification);
+                    OpticNBT.set(stack, ((OpticItem) stack1.getItem()).getMagnification());
                 }
-            } else if (OpticNBT.get(stack) != ((OpticItem) stack1.getItem()).magnification) {
-                OpticNBT.set(stack, ((OpticItem) stack1.getItem()).magnification);
+            } else if (OpticNBT.get(stack) != ((OpticItem) stack1.getItem()).getMagnification()) {
+                OpticNBT.set(stack, ((OpticItem) stack1.getItem()).getMagnification());
             }
         }
     }
@@ -385,7 +384,7 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
     }
 
     private boolean isCorrectBullet(@NotNull Item item) {
-        return item == this.getBullet().get();
+        return item == this.getBullet();
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -469,7 +468,7 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
     public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> textComponents, ITooltipFlag flag) {
         textComponents.add(new TranslationTextComponent("tooltip.gungale." + Objects.requireNonNull(this.getRegistryName()).getPath()));
         textComponents.add(new TranslationTextComponent("tooltip.gungale.property.bullet_type",
-                new TranslationTextComponent("item.gungale." + Objects.requireNonNull(this.getBullet().get().getRegistryName()).getPath())));
+                new TranslationTextComponent("item.gungale." + Objects.requireNonNull(this.getBullet().getRegistryName()).getPath())));
         if (!Screen.hasShiftDown()) textComponents.add(new TranslationTextComponent("tooltip.gungale.shift"));
         else {
             textComponents.add(new TranslationTextComponent("tooltip.gungale.property.body_damage",

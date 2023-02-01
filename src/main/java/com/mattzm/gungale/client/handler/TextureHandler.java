@@ -13,7 +13,9 @@ public class TextureHandler {
     @SubscribeEvent
     public static void onTextureStitch$Pre(final @NotNull TextureStitchEvent.Pre event) {
         event.addSprite(AttachmentSlot.INCAPABLE_SLOT);
-        event.addSprite(AttachmentSlot.EMPTY_MAG_SLOT);
+        event.addSprite(AttachmentSlot.EMPTY_HEAVY_MAG_SLOT);
+        event.addSprite(AttachmentSlot.EMPTY_LIGHT_MAG_SLOT);
+        event.addSprite(AttachmentSlot.EMPTY_ENERGY_MAG_SLOT);
         event.addSprite(AttachmentSlot.EMPTY_BARREL_SLOT);
         event.addSprite(AttachmentSlot.EMPTY_STOCK_SLOT);
         event.addSprite(AttachmentSlot.EMPTY_OPTIC_SLOT);

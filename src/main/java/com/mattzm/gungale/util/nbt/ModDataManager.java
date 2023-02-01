@@ -24,7 +24,7 @@ public class ModDataManager {
         StaticInventory.serverSet(player.getUUID(), ModPlayerInventory.createNew(player, tag));
     }
 
-    public static void saveServerData(CompoundNBT compoundNBT, MinecraftServer server) {
+    public static void saveServerData(CompoundNBT compoundNBT) {
         if (FormalGameHandler.getInstance() != null) {
             CompoundNBT formalGameData = new CompoundNBT();
             formalGameData.putInt("tickTime", FormalGameHandler.getInstance().getTimer().getTickTime());

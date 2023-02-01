@@ -23,7 +23,7 @@ public class ServerHandler {
         MinecraftServer server = event.getServer();
         File directory = server.getServerDirectory();
         CompoundNBT compoundNBT = new CompoundNBT(), data = new CompoundNBT();
-        ModDataManager.saveServerData(data, server);
+        ModDataManager.saveServerData(data);
         compoundNBT.put("data", data);
         File file = new File(directory, "level.mdat");
         CompressedStreamTools.writeCompressed(compoundNBT, file);

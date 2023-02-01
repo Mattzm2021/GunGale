@@ -106,9 +106,10 @@ public class ModPlayerInventory implements INamedContainerProvider, IInventory, 
 
             for (int i = 0; i < 2; i++) {
                 if (!inventory.getItem(i * 6).isEmpty()) {
+                    int index = i * 6 + 2;
                     ItemStack stack = inventory.getItem(i * 6);
-                    if (!inventory.getItem(i * 6 + 1).isEmpty()) {
-                        MagSizeNBT.set(stack, ((MagItem) inventory.getItem(i * 6 + 1).getItem()).getMagazineSize(stack));
+                    if (!inventory.getItem(index).isEmpty()) {
+                        MagSizeNBT.set(stack, ((MagItem) inventory.getItem(index).getItem()).getMagazineSize(stack));
                     } else {
                         MagSizeNBT.set(stack, ((AbstractWeaponItem) (stack.getItem())).magazineSize);
                     }
@@ -142,18 +143,36 @@ public class ModPlayerInventory implements INamedContainerProvider, IInventory, 
     }
 
     public void checkIfRemoveAttachment() {
-        if (this.getItem(0).isEmpty()) {
-            for (int i = 1; i < 6; i++) {
-                if (!this.getItem(i).isEmpty()) {
-                    this.setUtilOrDrop(this.getItem(i));
-                }
-            }
-        }
-
-        if (this.getItem(6).isEmpty()) {
-            for (int i = 1; i < 6; i++) {
-                if (!this.getItem(i + 6).isEmpty()) {
-                    this.setUtilOrDrop(this.getItem(i + 6));
+        for (int i = 0; i < 12; i += 6) {
+            for (int j = i + 1; j < i + 6; j++) {
+                if (!this.getItem(j).isEmpty()) {
+                    if (this.getItem(i).isEmpty()) {
+                        this.setUtilOrDrop(this.getItem(j));
+                    } else {
+                        AbstractWeaponItem item = (AbstractWeaponItem) this.getItem(i).getItem();
+                        AttachmentItem item1 = (AttachmentItem) this.getItem(j).getItem();
+                        if (item1 instanceof BarrelItem) {
+                            if (!item.getBarrel()) {
+                                this.setUtilOrDrop(this.getItem(j));
+                            }
+                        } else if (item1 instanceof MagItem) {
+                            if (item.getMag() != ((MagItem) item1).getType()) {
+                                this.setUtilOrDrop(this.getItem(j));
+                            }
+                        } else if (item1 instanceof OpticItem) {
+                            if (!((OpticItem) item1).canFit(item)) {
+                                this.setUtilOrDrop(this.getItem(j));
+                            }
+                        } else if (item1 instanceof StockItem) {
+                            if (item.getStock() != ((StockItem) item1).getType()) {
+                                this.setUtilOrDrop(this.getItem(j));
+                            }
+                        } else {
+                            if (item.getHopUp() != item1) {
+                                this.setUtilOrDrop(this.getItem(j));
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -179,33 +198,33 @@ public class ModPlayerInventory implements INamedContainerProvider, IInventory, 
     }
 
     public boolean checkAndSetAttachment(@NotNull ItemStack stack) {
-        if (stack.getItem() instanceof MagItem) {
-            if (this.getFreeMagSlot() != -1) {
-                this.setItem(this.getFreeMagSlot(), stack.copy());
-                stack.setCount(0);
-                return true;
-            }
-        } else if (stack.getItem() instanceof BarrelItem) {
+        if (stack.getItem() instanceof BarrelItem) {
             if (this.getFreeBarrelSlot() != -1) {
                 this.setItem(this.getFreeBarrelSlot(), stack.copy());
                 stack.setCount(0);
                 return true;
             }
-        } else if (stack.getItem() instanceof StockItem) {
-            if (this.getFreeStockSlot() != -1) {
-                this.setItem(this.getFreeStockSlot(), stack.copy());
+        } else if (stack.getItem() instanceof MagItem) {
+            if (this.getFreeMagSlot(stack) != -1) {
+                this.setItem(this.getFreeMagSlot(stack), stack.copy());
                 stack.setCount(0);
                 return true;
             }
         } else if (stack.getItem() instanceof OpticItem) {
-            if (this.getFreeOpticSlot() != -1) {
-                this.setItem(this.getFreeOpticSlot(), stack.copy());
+            if (this.getFreeOpticSlot(stack) != -1) {
+                this.setItem(this.getFreeOpticSlot(stack), stack.copy());
+                stack.setCount(0);
+                return true;
+            }
+        } else if (stack.getItem() instanceof StockItem) {
+            if (this.getFreeStockSlot(stack) != -1) {
+                this.setItem(this.getFreeStockSlot(stack), stack.copy());
                 stack.setCount(0);
                 return true;
             }
         } else if (stack.getItem() instanceof HopUpItem) {
-            if (this.getFreeHopUpSlot() != -1) {
-                this.setItem(this.getFreeHopUpSlot(), stack.copy());
+            if (this.getFreeHopUpSlot(stack) != -1) {
+                this.setItem(this.getFreeHopUpSlot(stack), stack.copy());
                 stack.setCount(0);
                 return true;
             }
@@ -242,74 +261,83 @@ public class ModPlayerInventory implements INamedContainerProvider, IInventory, 
         }
     }
 
-    public int getFreeMagSlot() {
-        if (!this.getItem(0).isEmpty() && this.getItem(1).isEmpty()) {
-            return 1;
-        } else if (!this.getItem(6).isEmpty() && this.getItem(7).isEmpty()) {
-            return 7;
-        }
-
-        return -1;
-    }
-
     public int getFreeBarrelSlot() {
-        if (!this.getItem(0).isEmpty()) {
-            if (this.getItem(2).isEmpty() && ((AbstractWeaponItem) this.getItem(0).getItem()).getBarrel().get()) {
-                return 2;
-            }
-        }
-
-        if (!this.getItem(6).isEmpty() && ((AbstractWeaponItem) this.getItem(6).getItem()).getBarrel().get()) {
-            if (this.getItem(8).isEmpty()) {
-                return 8;
-            }
-        }
-
-        return -1;
-    }
-
-    public int getFreeStockSlot() {
-        if (!this.getItem(0).isEmpty()) {
-            if (this.getItem(3).isEmpty()) {
-                return 3;
-            }
-        }
-
-        if (!this.getItem(6).isEmpty()) {
-            if (this.getItem(9).isEmpty()) {
-                return 9;
+        for (int i = 0; i < 2; i++) {
+            ItemStack stack = this.getItem(i * 6);
+            if (!stack.isEmpty()) {
+                int index = i * 6 + 1;
+                AbstractWeaponItem item = (AbstractWeaponItem) stack.getItem();
+                if (this.getItem(index).isEmpty() && item.getBarrel()) {
+                    return index;
+                }
             }
         }
 
         return -1;
     }
 
-    public int getFreeOpticSlot() {
-        if (!this.getItem(0).isEmpty()) {
-            if (this.getItem(4).isEmpty()) {
-                return 4;
-            }
-        }
+    public int getFreeMagSlot(@NotNull ItemStack stack) {
+        MagItem item = (MagItem) stack.getItem();
 
-        if (!this.getItem(6).isEmpty()) {
-            if (this.getItem(10).isEmpty()) {
-                return 10;
+        for (int i = 0; i < 2; i++) {
+            ItemStack stack1 = this.getItem(i * 6);
+            if (!stack1.isEmpty()) {
+                int index = i * 6 + 2;
+                AbstractWeaponItem item1 = (AbstractWeaponItem) stack1.getItem();
+                if (this.getItem(index).isEmpty() && item1.getMag() == item.getType()) {
+                    return index;
+                }
             }
         }
 
         return -1;
     }
 
-    public int getFreeHopUpSlot() {
-        if (!this.getItem(0).isEmpty()) {
-            if (this.getItem(5).isEmpty()) {
-                return 5;
+    public int getFreeOpticSlot(@NotNull ItemStack stack) {
+        OpticItem item = (OpticItem) stack.getItem();
+
+        for (int i = 0; i < 2; i++) {
+            ItemStack stack1 = this.getItem(i * 6);
+            if (!stack1.isEmpty()) {
+                int index = i * 6 + 3;
+                AbstractWeaponItem item1 = (AbstractWeaponItem) stack1.getItem();
+                if (this.getItem(index).isEmpty() && item.canFit(item1)) {
+                    return index;
+                }
             }
         }
 
-        if (!this.getItem(6).isEmpty()) {
-            if (this.getItem(11).isEmpty()) {
-                return 11;
+        return -1;
+    }
+
+    public int getFreeStockSlot(@NotNull ItemStack stack) {
+        StockItem item = (StockItem) stack.getItem();
+
+        for (int i = 0; i < 2; i++) {
+            ItemStack stack1 = this.getItem(i * 6);
+            if (!stack1.isEmpty()) {
+                int index = i * 6 + 4;
+                AbstractWeaponItem item1 = (AbstractWeaponItem) stack1.getItem();
+                if (this.getItem(index).isEmpty() && item1.getStock() == item.getType()) {
+                    return index;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    public int getFreeHopUpSlot(@NotNull ItemStack stack) {
+        HopUpItem item = (HopUpItem) stack.getItem();
+
+        for (int i = 0; i < 2; i++) {
+            ItemStack stack1 = this.getItem(i * 6);
+            if (!stack1.isEmpty()) {
+                int index = i * 6 + 5;
+                AbstractWeaponItem item1 = (AbstractWeaponItem) stack1.getItem();
+                if (this.getItem(index).isEmpty() && item1.getHopUp() == item) {
+                    return index;
+                }
             }
         }
 
@@ -394,7 +422,7 @@ public class ModPlayerInventory implements INamedContainerProvider, IInventory, 
                     } else {
                         stack.setCount(this.addResource(stack, index));
                     }
-                } while(!stack.isEmpty() && stack.getCount() < i);
+                } while (!stack.isEmpty() && stack.getCount() < i);
 
                 if (stack.getCount() == i && this.player.abilities.instabuild) {
                     stack.setCount(0);

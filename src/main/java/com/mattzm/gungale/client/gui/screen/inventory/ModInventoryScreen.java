@@ -1,4 +1,4 @@
-package com.mattzm.gungale.client.gui.screen;
+package com.mattzm.gungale.client.gui.screen.inventory;
 
 import com.mattzm.gungale.GunGale;
 import com.mattzm.gungale.client.settings.ModSettings;
@@ -22,13 +22,13 @@ import org.jetbrains.annotations.NotNull;
 public class ModInventoryScreen extends ContainerScreen<ModItemContainer> {
     private static final ResourceLocation MOD_INVENTORY_LOCATION = new ResourceLocation(GunGale.MOD_ID, "textures/gui/container/mod_inventory.png");
 
-    public ModInventoryScreen(ModItemContainer p_i51105_1_, PlayerInventory p_i51105_2_, ITextComponent p_i51105_3_) {
-        super(p_i51105_1_, p_i51105_2_, p_i51105_3_);
+    public ModInventoryScreen(ModItemContainer container, PlayerInventory inventory, ITextComponent component) {
+        super(container, inventory, component);
     }
 
     @Override
-    public boolean keyPressed(int p_231046_1_, int p_231046_2_, int p_231046_3_) {
-        InputMappings.Input mouseKey = InputMappings.getKey(p_231046_1_, p_231046_2_);
+    public boolean keyPressed(int buttonId, int scancode, int modifier) {
+        InputMappings.Input mouseKey = InputMappings.getKey(buttonId, scancode);
         if (this.minecraft == null) {
             return false;
         } else if (this.minecraft.options.keyInventory.isActiveAndMatches(mouseKey)) {
@@ -42,7 +42,7 @@ public class ModInventoryScreen extends ContainerScreen<ModItemContainer> {
             }
 
             return true;
-        } else if (super.keyPressed(p_231046_1_, p_231046_2_, p_231046_3_)) {
+        } else if (super.keyPressed(buttonId, scancode, modifier)) {
             return true;
         } else if (ModSettings.KEY_INVENTORY.isActiveAndMatches(mouseKey)) {
             this.onClose();

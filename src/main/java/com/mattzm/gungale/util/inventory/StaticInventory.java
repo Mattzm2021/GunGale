@@ -62,9 +62,4 @@ public class StaticInventory {
             tempInventoryList.remove(uuid);
         }
     }
-
-    public static void clear(UUID uuid) {
-        serverClear(uuid);
-        tempClear(uuid);
-    }
 }

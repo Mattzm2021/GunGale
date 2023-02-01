@@ -8,5 +8,6 @@ import net.minecraftforge.registries.ObjectHolder;
 @VanillaCode("IRecipeSerializer")
 @ObjectHolder(GunGale.MOD_ID)
 public class ModRecipeSerializers {
+    @ObjectHolder("crafting_weapon")
     public static final IRecipeSerializer<WeaponRecipe> WEAPON_RECIPE = null;
 }

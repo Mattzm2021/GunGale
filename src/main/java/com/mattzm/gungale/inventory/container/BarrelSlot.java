@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class BarrelSlot extends AttachmentSlot {
     public BarrelSlot(IInventory inventory, int index, int posX, int posY, int weaponSlot) {
-        super(inventory, index, posX, posY, weaponSlot, 1);
+        super(inventory, index, posX, posY, weaponSlot, 0);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class BarrelSlot extends AttachmentSlot {
         if (this.container.getItem(this.weaponSlot).isEmpty()) {
             return false;
         } else {
-            return stack.getItem() instanceof BarrelItem && ((AbstractWeaponItem) this.container.getItem(this.weaponSlot).getItem()).getBarrel().get();
+            return stack.getItem() instanceof BarrelItem && ((AbstractWeaponItem) this.container.getItem(this.weaponSlot).getItem()).getBarrel();
         }
     }
 
@@ -28,7 +28,7 @@ public class BarrelSlot extends AttachmentSlot {
     public @Nullable Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
         if (!this.container.getItem(this.weaponSlot).isEmpty()) {
             AbstractWeaponItem item = (AbstractWeaponItem) this.container.getItem(this.weaponSlot).getItem();
-            if (!item.getBarrel().get()) {
+            if (!item.getBarrel()) {
                 return Pair.of(PlayerContainer.BLOCK_ATLAS, AttachmentSlot.INCAPABLE_SLOT);
             }
         }
