@@ -50,8 +50,8 @@ public class RecoilProperty {
         return ModMathHelper.twoDigitsDouble(getScreenVRecoil(recoil, itemPrecision, actualPrecision));
     }
 
-    public static @NotNull Vector3d getBulletVector(int hipFireAccuracy, @NotNull PlayerEntity player) {
-        float distance = (float) Math.random() * (500.0f / hipFireAccuracy - 5);
+    public @NotNull Vector3d getBulletVector(@NotNull PlayerEntity player) {
+        float distance = (float) Math.random() * (500.0f / this.hipFireAccuracy - 5);
         float degree = (float) Math.random() * 360;
         float xRot = player.xRot + MathHelper.cos(ModMathHelper.degreeToRadius(degree)) * distance;
         float yRot = player.yRot + MathHelper.sin(ModMathHelper.degreeToRadius(degree)) * distance;

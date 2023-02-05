@@ -392,7 +392,7 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
         boolean flag = Minecraft.getInstance().options.fov > OpticItem.MAGNIFICATION_FOV[OpticNBT.get(ModPlayerInventory.get(player).getSelected())];
         Vector3d eyePosition = player.getEyePosition(1.0f);
         Vector3d bulletVector = player.getViewVector(1.0f);
-        if (flag) bulletVector = RecoilProperty.getBulletVector(this.hipFireAccuracy, player);
+        if (flag) bulletVector = this.recoilProperty.getBulletVector(player);
         Vector3d position = eyePosition.add(bulletVector.x * this.effectiveRange, bulletVector.y * this.effectiveRange, bulletVector.z * this.effectiveRange);
         BlockRayTraceResult blockResult = world.clip(new RayTraceContext(eyePosition, position, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, player));
 

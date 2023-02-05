@@ -9,6 +9,7 @@ import com.mattzm.gungale.item.OpticItem;
 import com.mattzm.gungale.item.weapon.AbstractWeaponItem;
 import com.mattzm.gungale.nbt.stack.BulletNBT;
 import com.mattzm.gungale.client.nbt.tick.ReloadNBT;
+import com.mattzm.gungale.nbt.stack.OpticNBT;
 import com.mattzm.gungale.nbt.stack.ShieldEvolveNBT;
 import com.mattzm.gungale.util.color.ColoredText;
 import com.mattzm.gungale.util.math.ModMathHelper;
@@ -44,10 +45,11 @@ import org.lwjgl.opengl.GL11;
 
 @OnlyIn(Dist.CLIENT)
 public class ModIngameGui {
-    public boolean showBorderText = false;
     private static final ResourceLocation MOD_ICONS_LOCATION = new ResourceLocation(GunGale.MOD_ID, "textures/gui/icons.png");
+    private static final ResourceLocation MOD_OPTICS_LOCATION = new ResourceLocation(GunGale.MOD_ID, "textures/gui/optics.png");
     private static final ResourceLocation MOD_WIDGETS_LOCATION = new ResourceLocation(GunGale.MOD_ID, "textures/gui/widgets.png");
     private static final Logger LOGGER = LogManager.getLogger();
+    public boolean showBorderText = false;
     private final Minecraft minecraft;
     private final FontRenderer font;
     private final MainWindow window;
@@ -214,18 +216,31 @@ public class ModIngameGui {
     public void renderAds(OpticItem item, MatrixStack matrixStack) {
         if (item == null) {
             renderAdsIronSight(matrixStack);
-        } else if (item == ModItems.HCOG_CLASSIC) {
-            renderAdsClassic(matrixStack);
-        } else if (item == ModItems.HOLO) {
-            renderAdsHolo(matrixStack);
-        } else if (item == ModItems.HCOG_BRUISER) {
-            renderAdsBruiser(matrixStack);
-        } else if (item == ModItems.VARIABLE_HOLO) {
-            renderAdsVariableHolo(matrixStack);
-        } else if (item == ModItems.HCOG_RANGER) {
-            renderAdsRanger(matrixStack);
-        } else if (item == ModItems.VARIABLE_AOG) {
-            renderAdsAOG(matrixStack);
+        } else {
+            this.renderAdsOptic(matrixStack, item);
+        }
+    }
+
+    private void renderAdsOptic(MatrixStack matrixStack, OpticItem item) {
+        this.minecraft.textureManager.bind(MOD_OPTICS_LOCATION);
+        if (this.options.getCameraType().isFirstPerson() && this.minecraft.gameMode != null) {
+            if (this.minecraft.gameMode.getPlayerMode() != GameType.SPECTATOR && this.getPlayer() != null) {
+                if (item == ModItems.HCOG_CLASSIC) {
+                    blit(matrixStack, (getWidth() - 59) / 2, (getHeight() - 59) / 2, 0, 0, 59, 59);
+                } else if (item == ModItems.HOLO) {
+                    blit(matrixStack, (getWidth() - 59) / 2, (getHeight() - 59) / 2, 59, 0, 59, 59);
+                } else if (item == ModItems.HCOG_BRUISER) {
+                    blit(matrixStack, (getWidth() - 99) / 2, (getHeight() - 99) / 2, 256 - 99, 0, 99, 99);
+                } else if (item == ModItems.VARIABLE_HOLO) {
+                    ItemStack itemStack = ModPlayerInventory.get(this.getPlayer()).getSelected();
+                    int startX = OpticNBT.get(itemStack) == 1 ? 0 : 69;
+                    blit(matrixStack, (getWidth() - 69) / 2, (getHeight() - 69) / 2, startX, 59, 69, 69);
+                } else if (item == ModItems.HCOG_RANGER) {
+                    blit(matrixStack, (getWidth() - 119) / 2, (getHeight() - 119) / 2, 0, 256 - 119, 119, 119);
+                } else if (item == ModItems.VARIABLE_AOG) {
+                    blit(matrixStack, (getWidth() - 119) / 2, (getHeight() - 119) / 2, 0, 256 - 119, 119, 119);
+                }
+            }
         }
     }
 
@@ -235,73 +250,7 @@ public class ModIngameGui {
             if (this.minecraft.gameMode == null) LOGGER.error("renderAdsFrontSight cannot provide a PlayerController!");
             else if (this.minecraft.gameMode.getPlayerMode() != GameType.SPECTATOR) {
                 if (this.getPlayer() == null) return;
-                blit(stack, (getWidth() - 15) / 2, (getHeight() - 15) / 2, 0, 0, 15, 15, 256, 256);
-            }
-        }
-    }
-
-    private void renderAdsClassic(MatrixStack stack) {
-        this.minecraft.getTextureManager().bind(new ResourceLocation(GunGale.MOD_ID, "textures/gui/optic/hcog_classic.png"));
-        if (this.options.getCameraType().isFirstPerson()) {
-            if (this.minecraft.gameMode != null) {
-                if (this.minecraft.gameMode.getPlayerMode() != GameType.SPECTATOR && this.getPlayer() != null) {
-                    blit(stack, (getWidth() - 59) / 2, (getHeight() - 59) / 2, 0, 0, 59, 59, 59, 59);
-                }
-            }
-        }
-    }
-
-    private void renderAdsHolo(MatrixStack stack) {
-        this.minecraft.getTextureManager().bind(new ResourceLocation(GunGale.MOD_ID, "textures/gui/optic/hcog_classic.png"));
-        if (this.options.getCameraType().isFirstPerson()) {
-            if (this.minecraft.gameMode != null) {
-                if (this.minecraft.gameMode.getPlayerMode() != GameType.SPECTATOR && this.getPlayer() != null) {
-                    blit(stack, (getWidth() - 59) / 2, (getHeight() - 59) / 2, 0, 0, 59, 59, 59, 59);
-                }
-            }
-        }
-    }
-
-    private void renderAdsBruiser(MatrixStack stack) {
-        this.minecraft.getTextureManager().bind(new ResourceLocation(GunGale.MOD_ID, "textures/gui/optic/hcog_bruiser.png"));
-        if (this.options.getCameraType().isFirstPerson()) {
-            if (this.minecraft.gameMode != null) {
-                if (this.minecraft.gameMode.getPlayerMode() != GameType.SPECTATOR && this.getPlayer() != null) {
-                    blit(stack, (getWidth() - 99) / 2, (getHeight() - 99) / 2, 0, 0, 99, 99, 99, 99);
-                }
-            }
-        }
-    }
-
-    private void renderAdsVariableHolo(MatrixStack stack) {
-        this.minecraft.getTextureManager().bind(new ResourceLocation(GunGale.MOD_ID, "textures/gui/optic/hcog_classic.png"));
-        if (this.options.getCameraType().isFirstPerson()) {
-            if (this.minecraft.gameMode != null) {
-                if (this.minecraft.gameMode.getPlayerMode() != GameType.SPECTATOR && this.getPlayer() != null) {
-                    blit(stack, (getWidth() - 59) / 2, (getHeight() - 59) / 2, 0, 0, 59, 59, 59, 59);
-                }
-            }
-        }
-    }
-
-    private void renderAdsRanger(MatrixStack stack) {
-        this.minecraft.getTextureManager().bind(new ResourceLocation(GunGale.MOD_ID, "textures/gui/optic/hcog_classic.png"));
-        if (this.options.getCameraType().isFirstPerson()) {
-            if (this.minecraft.gameMode != null) {
-                if (this.minecraft.gameMode.getPlayerMode() != GameType.SPECTATOR && this.getPlayer() != null) {
-                    blit(stack, (getWidth() - 59) / 2, (getHeight() - 59) / 2, 0, 0, 59, 59, 59, 59);
-                }
-            }
-        }
-    }
-
-    private void renderAdsAOG(MatrixStack stack) {
-        this.minecraft.getTextureManager().bind(new ResourceLocation(GunGale.MOD_ID, "textures/gui/optic/hcog_classic.png"));
-        if (this.options.getCameraType().isFirstPerson()) {
-            if (this.minecraft.gameMode != null) {
-                if (this.minecraft.gameMode.getPlayerMode() != GameType.SPECTATOR && this.getPlayer() != null) {
-                    blit(stack, (getWidth() - 59) / 2, (getHeight() - 59) / 2, 0, 0, 59, 59, 59, 59);
-                }
+                blit(stack, (getWidth() - 15) / 2, (getHeight() - 15) / 2, 0, 0, 15, 15);
             }
         }
     }
