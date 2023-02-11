@@ -9,7 +9,7 @@ public class MagSizeNBT {
 
     public static int get(@NotNull ItemStack stack) {
         if (!stack.getOrCreateTag().contains(TAG_ID)) {
-            stack.getOrCreateTag().putInt(TAG_ID, ((AbstractWeaponItem) stack.getItem()).magazineSize);
+            stack.getOrCreateTag().putInt(TAG_ID, ((AbstractWeaponItem) stack.getItem()).getMagazineSize());
         }
 
         return stack.getOrCreateTag().getInt(TAG_ID);

@@ -65,7 +65,7 @@ public class ModProjectileHelper {
         return target == null ? null : new EntityRayTraceResult(target, targetPos);
     }
 
-    public static @NotNull ColoredText getTextByDamage(float damage, PlayerEntity player, LivingEntity target, DamageType damageType) {
+    public static @NotNull ColoredText getTextByDamage(float damage, LivingEntity target, DamageType damageType) {
         damage = ModMathHelper.oneDigitFloat(damage);
         String text = Float.toString(damage);
         Vector3i[] colors;

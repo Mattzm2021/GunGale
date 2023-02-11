@@ -23,13 +23,7 @@ public class MagItem extends AttachmentItem {
 
     public int getMagazineSize(@NotNull ItemStack stack) {
         AbstractWeaponItem item = (AbstractWeaponItem) stack.getItem();
-        if (this.level == 1) {
-            return item.magProperty.level1;
-        } else if (this.level == 2) {
-            return item.magProperty.level2;
-        } else {
-            return item.magProperty.level3;
-        }
+        return item.getMagazineByLevel(this.level);
     }
 
     public IMagProvider.Type getType() {

@@ -111,7 +111,7 @@ public class ModPlayerInventory implements INamedContainerProvider, IInventory, 
                     if (!inventory.getItem(index).isEmpty()) {
                         MagSizeNBT.set(stack, ((MagItem) inventory.getItem(index).getItem()).getMagazineSize(stack));
                     } else {
-                        MagSizeNBT.set(stack, ((AbstractWeaponItem) (stack.getItem())).magazineSize);
+                        MagSizeNBT.set(stack, ((AbstractWeaponItem) (stack.getItem())).getMagazineSize());
                     }
 
                     inventory.setItem(i * 6, stack);
@@ -247,7 +247,7 @@ public class ModPlayerInventory implements INamedContainerProvider, IInventory, 
 
         ADSNBT.setFov(this.player, Minecraft.getInstance().options.fov);
         if (!stack.isEmpty()) {
-            ADSNBT.setSpeed(this.player, ((AbstractWeaponItem) stack.getItem()).adsSpeed);
+            ADSNBT.setSpeed(this.player, ((AbstractWeaponItem) stack.getItem()).getCertainAdsSpeed());
         }
     }
 

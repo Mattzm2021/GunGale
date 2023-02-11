@@ -3,6 +3,7 @@ package com.mattzm.gungale.block;
 import com.mattzm.gungale.inventory.container.WeaponBenchContainer;
 import com.mattzm.gungale.util.VanillaCode;
 import net.minecraft.block.Block;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
@@ -18,9 +19,8 @@ public class WeaponBenchBlock extends Block {
         super(properties);
     }
 
-    public SimpleNamedContainerProvider getContainerProvider(World world, BlockPos pos) {
-        return new SimpleNamedContainerProvider((counter, inventory, player) -> {
-            return new WeaponBenchContainer(counter, inventory, IWorldPosCallable.create(world, pos));
-        }, CONTAINER_TITLE);
+    public INamedContainerProvider getContainerProvider(World world, BlockPos pos) {
+        return new SimpleNamedContainerProvider((counter, inventory, player) ->
+                new WeaponBenchContainer(counter, inventory, IWorldPosCallable.create(world, pos)), CONTAINER_TITLE);
     }
 }

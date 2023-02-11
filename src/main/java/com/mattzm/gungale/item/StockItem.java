@@ -23,13 +23,7 @@ public class StockItem extends AttachmentItem {
 
     public int getPrecisionIncrease(@NotNull ItemStack stack) {
         AbstractWeaponItem item = (AbstractWeaponItem) stack.getItem();
-        if (this.level == 1) {
-            return item.recoilProperty.stockLevel1;
-        } else if (this.level == 2) {
-            return item.recoilProperty.stockLevel2;
-        } else {
-            return item.recoilProperty.stockLevel3;
-        }
+        return item.getStockIncrementByLevel(this.level);
     }
 
     public IStockProvider.Type getType() {

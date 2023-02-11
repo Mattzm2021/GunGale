@@ -10,4 +10,16 @@ public class MagProperty {
         this.level2 = level2;
         this.level3 = level3;
     }
+
+    public int getByLevel(int level) {
+        if (level == 1) {
+            return this.level1;
+        } else if (level == 2) {
+            return this.level2;
+        } else if (level == 3) {
+            return this.level3;
+        } else {
+            return 0;
+        }
+    }
 }

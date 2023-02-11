@@ -17,7 +17,6 @@ public class ClientUtil {
     public static void tick() {
         PlayerEntity player = Minecraft.getInstance().player;
         if (player == null || player.isSpectator()) return;
-
         if (ModSettings.KEY_FIRE.isDown()) {
             if (!FireNBT.onFire(player)) {
                 FireNBT.start(player);

@@ -21,7 +21,7 @@ public class ADSNBT {
     public static void start(@NotNull PlayerEntity player, double fov) {
         AbstractWeaponItem item = (AbstractWeaponItem) ModPlayerInventory.get(player).getSelected().getItem();
         MessageHandler.sendToServer(new CADSMessage(NBTAction.START));
-        setSpeed(player, item.adsSpeed);
+        setSpeed(player, item.getCertainAdsSpeed());
         setFov(player, fov);
         CompoundNBT nbt = player.getPersistentData().getCompound(TAG_ID);
         nbt.putBoolean(TAG_STATUS, true);

@@ -6,7 +6,11 @@ import java.util.Random;
 
 public class ModMathHelper {
     public static float tickToSecond(int tick) {
-        return twoDigitsFloat((float) tick / 20.0f);
+        return tickToSecond((float) tick);
+    }
+
+    public static float tickToSecond(float tick) {
+        return twoDigitsFloat(tick / 20.0f);
     }
 
     public static int min(int a, int b, int c) {
@@ -59,5 +63,11 @@ public class ModMathHelper {
     public static double getFovWithMagnification(double VFov, int magnification) {
         double tan = Math.sin(degreeToRadius(VFov / 2.0)) / Math.cos(degreeToRadius(VFov / 2)) / magnification;
         return Math.min(radiusToDegree(Math.atan(tan)) * 2, 60);
+    }
+
+    public static int getCertainTick(float uncertainTick) {
+        if (uncertainTick == (int) uncertainTick) return (int) uncertainTick;
+        int extra = Math.random() < getFloatPart(uncertainTick) ? 1 : 0;
+        return (int) uncertainTick + extra;
     }
 }

@@ -31,31 +31,31 @@ import org.jetbrains.annotations.NotNull;
 @Mod.EventBusSubscriber(modid = GunGale.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegistryHandler {
     @SubscribeEvent
-    public static void onRegisterItem(final @NotNull RegistryEvent.Register<Item> event) {
+    public static void onRegisterItem(final RegistryEvent.@NotNull Register<Item> event) {
         event.getRegistry().register(new Flatline(
-                new BasicProperty(3.6f, 600, 45, 22, 184.4f),
-                new DamageProperty(6.4f, 3.6f, 2.8f),
+                new BasicProperty(3.6f, 600, 45, 20, 184.4f),
+                new DamageProperty(6.4f, 2.8f),
                 new RecoilProperty(36, 13, 45, 7, 11, 16),
-                new ReloadProperty(56, 40),
-                new ADSProperty(5), new MagProperty(27, 31, 34), 60).setRegistryName("flatline"));
+                new ReloadProperty(62, 48),
+                new ADSProperty(5.4f), new MagProperty(25, 28, 30), 50).setRegistryName("flatline"));
         event.getRegistry().register(new R301Carbine(
-                new BasicProperty(2.8f, 816, 55, 20, 190.0f),
-                new DamageProperty(5.0f, 2.8f, 2.4f),
+                new BasicProperty(2.8f, 810, 55, 18, 190.0f),
+                new DamageProperty(5.0f, 2.2f),
                 new RecoilProperty(44, 16, 55, 8, 14, 17, 8, 14, 19),
-                new ReloadProperty(50, 32),
-                new ADSProperty(5), new MagProperty(22, 28, 32), 60).setRegistryName("r301_carbine"));
-        event.getRegistry().register(new HemlokBurstAR(
-                new BasicProperty(4.4f, 924, 38, 21, 244.8f),
-                new DamageProperty(7.8f, 4.4f, 3.4f),
+                new ReloadProperty(64, 48),
+                new ADSProperty(5.4f), new MagProperty(20, 25, 28), 50).setRegistryName("r301_carbine"));
+        event.getRegistry().register(new HemlokBurstAR( // TODO check the rof mechanics
+                new BasicProperty(4.0f, 414, 38, 18, 244.8f),
+                new DamageProperty(7.0f, 2.0f),
                 new RecoilProperty(30, 11, 38, 6, 10, 11, 6, 10, 13),
-                new ReloadProperty(52, 40),
-                new ADSProperty(5), new MagProperty(27, 30, 36), 60).setRegistryName("hemlok_burst_ar"));
+                new ReloadProperty(57, 48),
+                new ADSProperty(5.4f), new MagProperty(24, 27, 30), 50).setRegistryName("hemlok_burst_ar"));
         event.getRegistry().register(new HavocRifle(
-                new BasicProperty(3.6f, 672, 35, 26, 197.6f),
-                new DamageProperty(6.4f, 3.6f, 3.0f),
+                new BasicProperty(3.6f, 672, 35, 24, 197.6f),
+                new DamageProperty(6.4f, 3.0f),
                 new RecoilProperty(28, 10, 35, 5, 9, 12),
-                new ReloadProperty(58, 58),
-                new ADSProperty(5), new MagProperty(30, 34, 38), 60).setRegistryName("havoc_rifle"));
+                new ReloadProperty(64),
+                new ADSProperty(5.4f), new MagProperty(28, 32, 36), 50).setRegistryName("havoc_rifle"));
         event.getRegistry().register(new AmmoItem(90).setRegistryName("heavy_rounds"));
         event.getRegistry().register(new AmmoItem(24).setRegistryName("shotgun_shells"));
         event.getRegistry().register(new AmmoItem(32).setRegistryName("sniper_ammo"));

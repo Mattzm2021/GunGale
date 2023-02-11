@@ -15,6 +15,9 @@ import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.scoreboard.ScorePlayerTeam;
+import net.minecraft.scoreboard.Team;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.GameType;
@@ -115,6 +118,13 @@ public class GunGaleCommand {
             player.setRespawnPosition(source.getLevel().dimension(), player.blockPosition(), 0.0f, true, false);
         }
 
+        for (ScorePlayerTeam team : source.getServer().getScoreboard().getPlayerTeams()) {
+            team.setAllowFriendlyFire(false);
+            team.setSeeFriendlyInvisibles(true);
+            team.setNameTagVisibility(Team.Visible.HIDE_FOR_OTHER_TEAMS);
+            team.setCollisionRule(Team.CollisionRule.ALWAYS);
+        }
+
         FormalGameHandler.createNewInstance(source.getServer(), fieldRadius, gameTime * 20);
         if (FormalGameHandler.getInstance() != null) {
             FormalGameHandler.getInstance().startFormalGame();
@@ -128,7 +138,9 @@ public class GunGaleCommand {
     }
 
     private static int startQuickGame(@NotNull CommandSource source, int centerX, int centerZ, int fieldRadius, int gameTime) {
-        for (ServerPlayerEntity player : source.getServer().getPlayerList().getPlayers()) {
+        MinecraftServer server = source.getServer();
+
+        for (ServerPlayerEntity player : server.getPlayerList().getPlayers()) {
             player.inventory.clearContent();
             ModPlayerInventory.get(player).clearContent();
             player.containerMenu.broadcastChanges();
@@ -144,7 +156,7 @@ public class GunGaleCommand {
             player.setHealth(player.getMaxHealth());
             player.getFoodData().setFoodLevel(20);
 
-            for (Advancement advancement : source.getServer().getAdvancements().getAllAdvancements()) {
+            for (Advancement advancement : server.getAdvancements().getAllAdvancements()) {
                 AdvancementProgress progress = player.getAdvancements().getOrStartProgress(advancement);
                 if (progress.hasProgress()) {
                     for (String s : progress.getCompletedCriteria()) {
@@ -158,19 +170,19 @@ public class GunGaleCommand {
             player.addEffect(new EffectInstance(Effects.NIGHT_VISION, gameTime * 20, 0, false, false));
         }
 
-        source.getServer().setPvpAllowed(false);
-        source.getServer().setFlightAllowed(true);
-        source.getServer().getGameRules().getRule(GameRules.RULE_SENDCOMMANDFEEDBACK).set(false, source.getServer());
-        source.getServer().getGameRules().getRule(GameRules.RULE_DAYLIGHT).set(false, source.getServer());
-        source.getServer().getGameRules().getRule(GameRules.RULE_KEEPINVENTORY).set(true, source.getServer());
-        source.getServer().getGameRules().getRule(GameRules.RULE_DO_IMMEDIATE_RESPAWN).set(true, source.getServer());
-        source.getServer().getGameRules().getRule(GameRules.RULE_FALL_DAMAGE).set(false, source.getServer());
-        source.getServer().getGameRules().getRule(GameRules.RULE_FIRE_DAMAGE).set(false, source.getServer());
-        source.getServer().getGameRules().getRule(GameRules.RULE_DROWNING_DAMAGE).set(false, source.getServer());
-        source.getServer().setDifficulty(Difficulty.PEACEFUL, true);
-        source.getServer().getGameRules().getRule(GameRules.RULE_WEATHER_CYCLE).set(false, source.getServer());
+        server.setPvpAllowed(false);
+        server.setFlightAllowed(true);
+        server.getGameRules().getRule(GameRules.RULE_SENDCOMMANDFEEDBACK).set(false, server);
+        server.getGameRules().getRule(GameRules.RULE_DAYLIGHT).set(false, server);
+        server.getGameRules().getRule(GameRules.RULE_KEEPINVENTORY).set(true, server);
+        server.getGameRules().getRule(GameRules.RULE_DO_IMMEDIATE_RESPAWN).set(true, server);
+        server.getGameRules().getRule(GameRules.RULE_FALL_DAMAGE).set(false, server);
+        server.getGameRules().getRule(GameRules.RULE_FIRE_DAMAGE).set(false, server);
+        server.getGameRules().getRule(GameRules.RULE_DROWNING_DAMAGE).set(false, server);
+        server.setDifficulty(Difficulty.PEACEFUL, true);
+        server.getGameRules().getRule(GameRules.RULE_WEATHER_CYCLE).set(false, server);
 
-        for (ServerWorld world : source.getServer().getAllLevels()) {
+        for (ServerWorld world : server.getAllLevels()) {
             world.setDayTime(6000);
         }
 
@@ -178,16 +190,16 @@ public class GunGaleCommand {
         source.getLevel().getWorldBorder().setCenter(centerX, centerZ);
         source.getLevel().getWorldBorder().setWarningBlocks(5);
         source.getLevel().getWorldBorder().setWarningTime(10);
-        String command = "spreadplayers 0 0 " + getSpreadDistance(source.getAllTeams().size() == 0 ? source.getServer().getPlayerCount() : source.getAllTeams().size(), fieldRadius) + " " + fieldRadius + " true @a";
-        source.getServer().getCommands().performCommand(source, command);
+        String command = "spreadplayers 0 0 " + getSpreadDistance(source.getAllTeams().size() == 0 ? server.getPlayerCount() : source.getAllTeams().size(), fieldRadius) + " " + fieldRadius + " true @a";
+        server.getCommands().performCommand(source, command);
         source.getLevel().getWorldBorder().setSize(fieldRadius * 2);
-        source.getServer().getGameRules().getRule(GameRules.RULE_SENDCOMMANDFEEDBACK).set(true, source.getServer());
+        server.getGameRules().getRule(GameRules.RULE_SENDCOMMANDFEEDBACK).set(true, server);
 
-        for (ServerPlayerEntity player : source.getServer().getPlayerList().getPlayers()) {
+        for (ServerPlayerEntity player : server.getPlayerList().getPlayers()) {
             player.setRespawnPosition(source.getLevel().dimension(), player.blockPosition(), 0.0f, true, false);
         }
 
-        QuickGameHandler.createNewInstance(source.getServer(), gameTime * 20);
+        QuickGameHandler.createNewInstance(server, gameTime * 20);
         if (QuickGameHandler.getInstance() != null) {
             QuickGameHandler.getInstance().startGame();
         }
@@ -201,7 +213,7 @@ public class GunGaleCommand {
             player.removeAllEffects();
         }
 
-        source.getLevel().getWorldBorder().setSize(29999984);
+        source.getLevel().getWorldBorder().setSize(source.getLevel().getWorldBorder().getAbsoluteMaxSize());
         if (FormalGameHandler.getInstance() != null) {
             FormalGameHandler.getInstance().stopFormalGame();
         }

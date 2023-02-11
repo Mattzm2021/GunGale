@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class ModRecipeTypes {
     public static final IRecipeType<WeaponRecipe> WEAPON = register("weapon");
 
-    static <T extends IRecipe<?>> @NotNull IRecipeType<T> register(final String name) {
+    private static <T extends IRecipe<?>> @NotNull IRecipeType<T> register(final String name) {
         return Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(GunGale.MOD_ID, name), new IRecipeType<T>() {
             public String toString() {
                 return name;

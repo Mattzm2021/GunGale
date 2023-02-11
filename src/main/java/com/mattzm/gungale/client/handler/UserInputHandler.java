@@ -55,7 +55,7 @@ public class UserInputHandler {
 
                 ADSNBT.setFov(player, Minecraft.getInstance().options.fov);
                 if (!stack.isEmpty()) {
-                    ADSNBT.setSpeed(player, ((AbstractWeaponItem) stack.getItem()).adsSpeed);
+                    ADSNBT.setSpeed(player, ((AbstractWeaponItem) stack.getItem()).getCertainAdsSpeed());
                 }
             }
         }
@@ -79,7 +79,7 @@ public class UserInputHandler {
                 MessageHandler.sendToServer(new CChangeInventoryMessage(0));
                 ADSNBT.setFov(player, Minecraft.getInstance().options.fov);
                 if (!stack.isEmpty()) {
-                    ADSNBT.setSpeed(player, ((AbstractWeaponItem) stack.getItem()).adsSpeed);
+                    ADSNBT.setSpeed(player, ((AbstractWeaponItem) stack.getItem()).getCertainAdsSpeed());
                 }
             }
         }
@@ -90,7 +90,7 @@ public class UserInputHandler {
                 MessageHandler.sendToServer(new CChangeInventoryMessage(6));
                 ADSNBT.setFov(player, Minecraft.getInstance().options.fov);
                 if (!stack.isEmpty()) {
-                    ADSNBT.setSpeed(player, ((AbstractWeaponItem) stack.getItem()).adsSpeed);
+                    ADSNBT.setSpeed(player, ((AbstractWeaponItem) stack.getItem()).getCertainAdsSpeed());
                 }
             }
         }

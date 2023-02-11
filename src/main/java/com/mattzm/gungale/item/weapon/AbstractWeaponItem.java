@@ -53,25 +53,28 @@ import java.util.UUID;
 
 public abstract class AbstractWeaponItem extends Item implements IAttachable, IReloadable {
     private static final UUID SPEED_UUID = UUID.fromString("f3286092-bd91-4661-8860-c405d7f39cca");
-    public final float bodyDamage;
-    public final int rateOfFire;
-    public final int precision;
-    public final int magazineSize;
-    public final float effectiveRange;
-    public final int verticalRecoil;
-    public final int horizontalRecoil;
-    public final int hipFireAccuracy;
-    public final int fullReloadSpeed;
-    public final int tacReloadSpeed;
-    public final int adsSpeed;
-    public final int mobility;
-    public final MagProperty magProperty;
-    public final RecoilProperty recoilProperty;
-    public final DamageProperty damageProperty;
+    private final float bodyDamage;
+    private final float headDamage;
+    private final float legsDamage;
+    private final int rateOfFire;
+    protected final int precision;
+    private final int magazineSize;
+    private final float effectiveRange;
+    protected final int verticalRecoil;
+    protected final int horizontalRecoil;
+    private final int hipFireAccuracy;
+    private final int fullReloadSpeed;
+    private final int tacReloadSpeed;
+    private final int mobility;
+    private final ADSProperty adsProperty;
+    private final MagProperty magProperty;
+    private final RecoilProperty recoilProperty;
 
     protected AbstractWeaponItem(@NotNull BasicProperty basicProperty, @NotNull DamageProperty damageProperty, @NotNull RecoilProperty recoilProperty, @NotNull ReloadProperty reloadProperty, @NotNull ADSProperty adsProperty, @NotNull MagProperty magProperty, int mobility) {
         super(new Item.Properties().tab(ModItemGroup.TAB_WEAPON).stacksTo(1));
         this.bodyDamage = basicProperty.bodyDamage;
+        this.headDamage = damageProperty.getHeadDamage();
+        this.legsDamage = damageProperty.getLegsDamage();
         this.rateOfFire = basicProperty.rateOfFire;
         this.precision = basicProperty.precision;
         this.magazineSize = basicProperty.magazineSize;
@@ -81,10 +84,9 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
         this.hipFireAccuracy = recoilProperty.hipFireAccuracy;
         this.fullReloadSpeed = reloadProperty.fullReloadSpeed;
         this.tacReloadSpeed = reloadProperty.tacReloadSpeed;
-        this.adsSpeed = adsProperty.adsSpeed;
         this.magProperty = magProperty;
+        this.adsProperty = adsProperty;
         this.recoilProperty = recoilProperty;
-        this.damageProperty = damageProperty;
         this.mobility = mobility;
     }
 
@@ -98,7 +100,7 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
             if (damage < 0.0f) return;
             MessageHandler.sendToServer(new CEntityHitMessage(target.entity.getId(), damage));
             if (!target.entity.isDeadOrDying()) {
-                ClientObjectHolder.getInstance().getMIngameGui().setMainDamageText(ModProjectileHelper.getTextByDamage(damage, player, target.entity, target.damageType));
+                ClientObjectHolder.getInstance().getMIngameGui().setMainDamageText(ModProjectileHelper.getTextByDamage(damage, target.entity, target.damageType));
                 ClientObjectHolder.getInstance().getMIngameGui().setMainDamagePos(player.xRot, player.yRot);
                 if (target.entity instanceof PlayerEntity) {
                     if (!((PlayerEntity) target.entity).isCreative()) {
@@ -446,10 +448,8 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
     }
 
     private int getShootPeriod() {
-        double period = ModMathHelper.twoDigitsDouble(1200.0 / this.rateOfFire);
-        if (period == (int) period) return (int) period;
-        int extra = Math.random() < ModMathHelper.getFloatPart(period) ? 1 : 0;
-        return (int) period + extra;
+        float period = ModMathHelper.twoDigitsFloat(1200.0f / this.rateOfFire);
+        return ModMathHelper.getCertainTick(period);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -491,9 +491,45 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
                     new StringTextComponent(Double.toString(this.fullReloadSpeed / 20.0)).withStyle(TextFormatting.RED),
                     new StringTextComponent(Double.toString(this.tacReloadSpeed / 20.0)).withStyle(TextFormatting.RED)));
             textComponents.add(new TranslationTextComponent("tooltip.gungale.property.ads_speed",
-                    new StringTextComponent(Double.toString(ModMathHelper.tickToSecond(this.adsSpeed))).withStyle(TextFormatting.RED)));
+                    new StringTextComponent(Double.toString(ModMathHelper.tickToSecond(this.adsProperty.getRenderAdsSpeed()))).withStyle(TextFormatting.RED)));
             textComponents.add(new TranslationTextComponent("tooltip.gungale.property.mobility",
                     new StringTextComponent(Integer.toString(this.mobility)).withStyle(TextFormatting.RED)));
         }
+    }
+
+    public float getBodyDamage() {
+        return this.bodyDamage;
+    }
+
+    public float getHeadDamage() {
+        return this.headDamage;
+    }
+
+    public float getLegsDamage() {
+        return this.legsDamage;
+    }
+
+    public int getPrecision() {
+        return this.precision;
+    }
+
+    public int getMagazineSize() {
+        return this.magazineSize;
+    }
+
+    public int getCertainAdsSpeed() {
+        return this.adsProperty.getCertainSpeed();
+    }
+
+    public int getMagazineByLevel(int level) {
+        return this.magProperty.getByLevel(level);
+    }
+
+    public int getBarrelIncrementByLevel(int level) {
+        return this.recoilProperty.getBarrelPrecisionIncrement(level);
+    }
+
+    public int getStockIncrementByLevel(int level) {
+        return this.recoilProperty.getStockPrecisionIncrement(level);
     }
 }

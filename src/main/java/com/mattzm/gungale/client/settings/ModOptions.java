@@ -10,9 +10,8 @@ import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 public class ModOptions {
-    public static final SliderPercentageOption GLOBAL_SENSITIVITY = new SliderPercentageOption("moptions.globalSensitivity", 0.0, 1.0, 0.0f, settings -> {
-        return ClientObjectHolder.getInstance().getMOptions().globalSensitivity;
-    }, (settings, value) -> {
+    public static final SliderPercentageOption GLOBAL_SENSITIVITY = new SliderPercentageOption("moptions.globalSensitivity", 0.0, 1.0, 0.0f, settings ->
+            ClientObjectHolder.getInstance().getMOptions().globalSensitivity, (settings, value) -> {
         ClientObjectHolder.getInstance().getMOptions().globalSensitivity = value;
         ClientObjectHolder.getInstance().getMOptions().save();
     }, (settings, option) -> {

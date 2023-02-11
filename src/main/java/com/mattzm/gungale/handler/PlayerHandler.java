@@ -8,6 +8,7 @@ import com.mattzm.gungale.item.AmmoItem;
 import com.mattzm.gungale.item.AttachmentItem;
 import com.mattzm.gungale.item.weapon.AbstractWeaponItem;
 import com.mattzm.gungale.util.nbt.ModDataManager;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -89,16 +90,17 @@ public class PlayerHandler {
 
     @SubscribeEvent
     public static void onRightClickBlock(PlayerInteractEvent.@NotNull RightClickBlock event) {
-        if (event.getWorld().getBlockState(event.getPos()).getBlock() == Blocks.CRAFTING_TABLE) {
+        Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
+        if (block == Blocks.CRAFTING_TABLE) {
             if (event.getSide() == LogicalSide.SERVER) {
                 event.setCanceled(true);
                 event.getPlayer().openMenu(ModPlayerInventory.get(event.getPlayer()).getMenuProviderForCrafting(event.getWorld(), event.getPos()));
                 event.getPlayer().awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
             }
-        } else if (event.getWorld().getBlockState(event.getPos()).getBlock() == ModBlocks.WEAPON_BENCH) {
+        } else if (block == ModBlocks.WEAPON_BENCH) {
             event.setCanceled(true);
             if (event.getSide() == LogicalSide.SERVER && event.getHand() == Hand.MAIN_HAND) {
-                event.getPlayer().openMenu(((WeaponBenchBlock) event.getWorld().getBlockState(event.getPos()).getBlock()).getContainerProvider(event.getWorld(), event.getPos()));
+                event.getPlayer().openMenu(((WeaponBenchBlock) block).getContainerProvider(event.getWorld(), event.getPos()));
             }
         }
     }

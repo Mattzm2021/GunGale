@@ -64,4 +64,28 @@ public class RecoilProperty {
         float f5 = MathHelper.sin(f);
         return new Vector3d(f3 * f4, -f5, f2 * f4);
     }
+
+    public int getBarrelPrecisionIncrement(int level) {
+        if (level == 1) {
+            return this.barrelLevel1;
+        } else if (level == 2) {
+            return this.barrelLevel2;
+        } else if (level == 3) {
+            return this.barrelLevel3;
+        } else {
+            return 0;
+        }
+    }
+
+    public int getStockPrecisionIncrement(int level) {
+        if (level == 1) {
+            return this.stockLevel1;
+        } else if (level == 2) {
+            return this.stockLevel2;
+        } else if (level == 3) {
+            return this.stockLevel3;
+        } else {
+            return 0;
+        }
+    }
 }

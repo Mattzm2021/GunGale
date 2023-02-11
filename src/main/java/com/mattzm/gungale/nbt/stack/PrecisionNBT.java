@@ -13,7 +13,7 @@ public class PrecisionNBT {
 
     public static int get(@NotNull ItemStack stack) {
         if (!stack.getOrCreateTag().contains(TAG_ID)) {
-            stack.getOrCreateTag().putInt(TAG_ID, ((AbstractWeaponItem) stack.getItem()).precision);
+            stack.getOrCreateTag().putInt(TAG_ID, ((AbstractWeaponItem) stack.getItem()).getPrecision());
         }
 
         return stack.getOrCreateTag().getInt(TAG_ID);

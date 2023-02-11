@@ -14,11 +14,11 @@ public enum DamageType {
 
     public float getDamage(AbstractWeaponItem item) {
         if (this == HEAD) {
-            return item.damageProperty.headDamage;
+            return item.getHeadDamage();
         } else if (this == BODY) {
-            return item.damageProperty.bodyDamage;
+            return item.getBodyDamage();
         } else {
-            return item.damageProperty.legsDamage;
+            return item.getLegsDamage();
         }
     }
 
