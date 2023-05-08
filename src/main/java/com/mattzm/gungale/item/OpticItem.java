@@ -35,6 +35,10 @@ public class OpticItem extends AttachmentItem {
         return false;
     }
 
+    public static double getFov(int magnification) {
+        return MAGNIFICATION_FOV[magnification];
+    }
+
     public int getMagnification() {
         return this.magnification;
     }

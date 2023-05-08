@@ -2,11 +2,12 @@ package com.mattzm.gungale.client.handler;
 
 import com.mattzm.gungale.GunGale;
 import com.mattzm.gungale.client.nbt.ADSNBT;
-import com.mattzm.gungale.client.settings.ModSettings;
+import com.mattzm.gungale.client.settings.ModGameSettings;
 import com.mattzm.gungale.entity.player.ModPlayerInventory;
 import com.mattzm.gungale.item.VariableOpticItem;
 import com.mattzm.gungale.item.weapon.AbstractWeaponItem;
 import com.mattzm.gungale.message.play.*;
+import com.mattzm.gungale.nbt.stack.FireModeNBT;
 import com.mattzm.gungale.nbt.stack.OpticNBT;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
@@ -25,15 +26,15 @@ public class UserInputHandler {
         PlayerEntity player = Minecraft.getInstance().player;
         ModPlayerInventory inventory = ModPlayerInventory.get(player);
         
-        if (ModSettings.KEY_RELOAD.consumeClick()) {
+        if (ModGameSettings.KEY_RELOAD.consumeClick()) {
             AbstractWeaponItem.checkIfCanReload(player);
         }
 
-        if (ModSettings.KEY_INVENTORY.consumeClick()) {
+        if (ModGameSettings.KEY_INVENTORY.consumeClick()) {
             MessageHandler.sendToServer(new COpenInventoryMessage(COpenInventoryMessage.Action.OPEN_FULL));
         }
 
-        if (ModSettings.KEY_SWAP.consumeClick()) {
+        if (ModGameSettings.KEY_SWAP.consumeClick()) {
             if (!inventory.status) {
                 MessageHandler.sendToServer(new CChangeInventoryMessage(true));
             } else {
@@ -41,7 +42,7 @@ public class UserInputHandler {
             }
         }
 
-        if (ModSettings.KEY_CHANGE_WEAPON.consumeClick()) {
+        if (ModGameSettings.KEY_CHANGE_WEAPON.consumeClick()) {
             if (inventory.status) {
                 ItemStack stack;
 
@@ -60,7 +61,16 @@ public class UserInputHandler {
             }
         }
 
-        if (ModSettings.KEY_SWAP_OPTIC.consumeClick()) {
+        if (ModGameSettings.KEY_SWAP_FIRE_MODE.consumeClick()) {
+            ItemStack stack = inventory.getSelected();
+            if (FireModeNBT.get(stack) == 0) {
+                FireModeNBT.setFromClient(stack, inventory.selected, 1);
+            } else {
+                FireModeNBT.setFromClient(stack, inventory.selected, 0);
+            }
+        }
+
+        if (ModGameSettings.KEY_SWAP_OPTIC.consumeClick()) {
             ItemStack stack = inventory.getItem(inventory.selected + 3);
             if (stack.getItem() instanceof VariableOpticItem) {
                 VariableOpticItem opticItem = (VariableOpticItem) stack.getItem();
@@ -73,7 +83,7 @@ public class UserInputHandler {
             }
         }
 
-        if (ModSettings.KEY_SELECT_WEAPON_A.consumeClick()) {
+        if (ModGameSettings.KEY_SELECT_WEAPON_A.consumeClick()) {
             if (inventory.selected == 6) {
                 ItemStack stack = inventory.getItem(0);
                 MessageHandler.sendToServer(new CChangeInventoryMessage(0));
@@ -84,7 +94,7 @@ public class UserInputHandler {
             }
         }
 
-        if (ModSettings.KEY_SELECT_WEAPON_B.consumeClick()) {
+        if (ModGameSettings.KEY_SELECT_WEAPON_B.consumeClick()) {
             if (inventory.selected == 0) {
                 ItemStack stack = inventory.getItem(6);
                 MessageHandler.sendToServer(new CChangeInventoryMessage(6));
@@ -95,7 +105,7 @@ public class UserInputHandler {
             }
         }
 
-        if (ModSettings.KEY_DROP.consumeClick()) {
+        if (ModGameSettings.KEY_DROP.consumeClick()) {
             if (!inventory.getSelected().isEmpty()) {
                 player.drop(inventory.getSelected(), false, true);
                 MessageHandler.sendToServer(new CDropItemMessage(inventory.getSelected()));

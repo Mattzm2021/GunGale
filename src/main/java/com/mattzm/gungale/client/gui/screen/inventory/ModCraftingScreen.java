@@ -1,7 +1,7 @@
 package com.mattzm.gungale.client.gui.screen.inventory;
 
 import com.mattzm.gungale.GunGale;
-import com.mattzm.gungale.client.settings.ModSettings;
+import com.mattzm.gungale.client.settings.ModGameSettings;
 import com.mattzm.gungale.inventory.container.ModWorkbenchContainer;
 import com.mattzm.gungale.util.VanillaCode;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -147,7 +147,7 @@ public class ModCraftingScreen extends ContainerScreen<ModWorkbenchContainer> im
             return true;
         } else if (super.keyPressed(buttonId, scancode, modifier)) {
             return true;
-        } else if (ModSettings.KEY_INVENTORY.isActiveAndMatches(mouseKey) && !this.modActive) {
+        } else if (ModGameSettings.KEY_INVENTORY.isActiveAndMatches(mouseKey) && !this.modActive) {
             this.setToMod();
             return true;
         } else {

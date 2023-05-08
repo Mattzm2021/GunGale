@@ -30,7 +30,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 @OnlyIn(Dist.CLIENT)
-public class ModSettings {
+public class ModGameSettings {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final Splitter OPTION_SPLITTER = Splitter.on(':').limit(2);
     public static final KeyBinding KEY_FIRE = new KeyBinding("key.fire", ModKeyConflictContext.ON_SHOOTABLE_0, Type.MOUSE, 0, "key.categories.gungale");
@@ -40,6 +40,7 @@ public class ModSettings {
     public static final KeyBinding KEY_RESTORE = new KeyBinding("key.restore", ModKeyConflictContext.ON_RESTORABLE_2, Type.MOUSE, 1, "key.categories.gungale");
     public static final KeyBinding KEY_SWAP = new KeyBinding("key.swap", KeyConflictContext.IN_GAME, Type.KEYSYM, 258, "key.categories.gungale");
     public static final KeyBinding KEY_CHANGE_WEAPON = new KeyBinding("key.change_weapon", ModKeyConflictContext.ON_WEAPON_SLOT_6, Type.KEYSYM, 70, "key.categories.gungale");
+    public static final KeyBinding KEY_SWAP_FIRE_MODE = new KeyBinding("key.swap_fire_mode", ModKeyConflictContext.KEY_SWAP_FIRE_MODE_9, Type.KEYSYM, 66, "key.categories.gungale");
     public static final KeyBinding KEY_SWAP_OPTIC = new KeyBinding("key.swap_optic", ModKeyConflictContext.ON_WEAPON_SLOT_6, Type.KEYSYM, 67, "key.categories.gungale");
     public static final KeyBinding KEY_SELECT_WEAPON_A = new KeyBinding("key.weapon_a", ModKeyConflictContext.ON_WEAPON_SLOT_6, Type.KEYSYM, 49, "key.categories.gungale");
     public static final KeyBinding KEY_SELECT_WEAPON_B = new KeyBinding("key.weapon_b", ModKeyConflictContext.ON_WEAPON_SLOT_6, Type.KEYSYM, 50, "key.categories.gungale");
@@ -49,7 +50,7 @@ public class ModSettings {
     private final Minecraft minecraft;
     private final File optionsFile;
 
-    public ModSettings(@NotNull Minecraft minecraft, File file) {
+    public ModGameSettings(@NotNull Minecraft minecraft, File file) {
         this.minecraft = minecraft;
         this.optionsFile = new File(file, "moptions.txt");
         this.load();
@@ -178,6 +179,7 @@ public class ModSettings {
         ClientRegistry.registerKeyBinding(KEY_RESTORE);
         ClientRegistry.registerKeyBinding(KEY_SWAP);
         ClientRegistry.registerKeyBinding(KEY_CHANGE_WEAPON);
+        ClientRegistry.registerKeyBinding(KEY_SWAP_FIRE_MODE);
         ClientRegistry.registerKeyBinding(KEY_SWAP_OPTIC);
         ClientRegistry.registerKeyBinding(KEY_SELECT_WEAPON_A);
         ClientRegistry.registerKeyBinding(KEY_SELECT_WEAPON_B);

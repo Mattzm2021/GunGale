@@ -36,10 +36,10 @@ public class TickHandler {
             ClientObjectHolder.getInstance().getMOptions().onClientTick();
             ClientObjectHolder.getInstance().getMIngameGui().tick();
             ClientObjectHolder.getInstance().getMItemInHandRenderer().tick();
-            ClientUtil.tick();
             if (Minecraft.getInstance().player != null) {
                 ClientNBTHelper.checkAndSetAll(Minecraft.getInstance().player);
             }
+            ClientUtil.tick();
         }
     }
 

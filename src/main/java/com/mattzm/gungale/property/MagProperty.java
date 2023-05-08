@@ -11,7 +11,7 @@ public class MagProperty {
         this.level3 = level3;
     }
 
-    public int getByLevel(int level) {
+    public int getMagazineIncrement(int level) {
         if (level == 1) {
             return this.level1;
         } else if (level == 2) {

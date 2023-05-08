@@ -150,7 +150,7 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
     @OnlyIn(Dist.CLIENT)
     private static void checkIfOnADS(PlayerEntity player) {
         if (Minecraft.getInstance().player != player) return;
-        double targetFov = ADSNBT.onADS(player) ? OpticItem.MAGNIFICATION_FOV[OpticNBT.get(ModPlayerInventory.get(player).getSelected())] : 70.0;
+        double targetFov = ADSNBT.onADS(player) ? OpticItem.getFov(OpticNBT.get(ModPlayerInventory.get(player).getSelected())) : 70.0;
         double speed = (targetFov - ADSNBT.getFov(player)) / ADSNBT.getSpeed(player);
         if (Minecraft.getInstance().options.fov != targetFov) {
             if (speed > 0 && Minecraft.getInstance().options.fov + speed > targetFov) {
@@ -201,7 +201,7 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
         if (!player.level.isClientSide) {
             int bullet = this.magazineSize;
             if (!ModPlayerInventory.get(player).getItem(index + 2).isEmpty()) {
-                bullet = ((MagItem) ModPlayerInventory.get(player).getItem(index + 2).getItem()).getMagazineSize(stack);
+                bullet += ((MagItem) ModPlayerInventory.get(player).getItem(index + 2).getItem()).getMagazineIncrement(stack);
             }
 
             if (BulletNBT.get(stack) > bullet) {
@@ -216,11 +216,11 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
         if (!player.level.isClientSide) {
             int precision = this.precision;
             if (!ModPlayerInventory.get(player).getItem(index + 1).isEmpty()) {
-                precision += ((BarrelItem) ModPlayerInventory.get(player).getItem(index + 1).getItem()).getPrecisionIncrease(stack);
+                precision += ((BarrelItem) ModPlayerInventory.get(player).getItem(index + 1).getItem()).getPrecisionIncrement(stack);
             }
 
             if (!ModPlayerInventory.get(player).getItem(index + 4).isEmpty()) {
-                precision += ((StockItem) ModPlayerInventory.get(player).getItem(index + 4).getItem()).getPrecisionIncrease(stack);
+                precision += ((StockItem) ModPlayerInventory.get(player).getItem(index + 4).getItem()).getPrecisionIncrement(stack);
             }
 
             PrecisionNBT.set(stack, precision);
@@ -312,8 +312,8 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
     }
 
     @OnlyIn(Dist.CLIENT)
-    public boolean canFire(PlayerEntity player, ItemStack stack) {
-        return haveFireAbility(player, stack) && !CoolDownNBT.hasStart(player) && FireNBT.onFire(player);
+    protected boolean canFire(PlayerEntity player, ItemStack stack) {
+        return haveFireAbility(player, stack) && !CoolDownNBT.hasStart(player) && FireNBT.onFirstTick(player);
     }
 
     public void hurt(@NotNull LivingEntity entity, PlayerEntity player, float damage) {
@@ -521,8 +521,8 @@ public abstract class AbstractWeaponItem extends Item implements IAttachable, IR
         return this.adsProperty.getCertainSpeed();
     }
 
-    public int getMagazineByLevel(int level) {
-        return this.magProperty.getByLevel(level);
+    public int getMagazineIncrementByLevel(int level) {
+        return this.magProperty.getMagazineIncrement(level);
     }
 
     public int getBarrelIncrementByLevel(int level) {

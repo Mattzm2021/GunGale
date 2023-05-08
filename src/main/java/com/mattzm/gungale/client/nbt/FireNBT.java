@@ -36,6 +36,10 @@ public class FireNBT {
         return player.getPersistentData().getCompound(TAG_ID).getBoolean(TAG_STATUS);
     }
 
+    public static boolean onFirstTick(@NotNull PlayerEntity player) {
+        return onFire(player) && getTick(player) == 1;
+    }
+
     public static int getTick(@NotNull PlayerEntity player) {
         return player.getPersistentData().getCompound(TAG_ID).getInt(TAG_TICK);
     }

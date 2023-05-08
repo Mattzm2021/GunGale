@@ -1,7 +1,7 @@
 package com.mattzm.gungale.client;
 
 import com.mattzm.gungale.client.nbt.tick.ReloadNBT;
-import com.mattzm.gungale.client.settings.ModSettings;
+import com.mattzm.gungale.client.settings.ModGameSettings;
 import com.mattzm.gungale.item.GearItem;
 import com.mattzm.gungale.item.RestoreItem;
 import com.mattzm.gungale.client.nbt.ADSNBT;
@@ -17,7 +17,7 @@ public class ClientUtil {
     public static void tick() {
         PlayerEntity player = Minecraft.getInstance().player;
         if (player == null || player.isSpectator()) return;
-        if (ModSettings.KEY_FIRE.isDown()) {
+        if (ModGameSettings.KEY_FIRE.isDown()) {
             if (!FireNBT.onFire(player)) {
                 FireNBT.start(player);
             }
@@ -25,7 +25,7 @@ public class ClientUtil {
             FireNBT.end(player);
         }
 
-        if (ModSettings.KEY_ADS.isDown() && !ReloadNBT.hasStart(player)) {
+        if (ModGameSettings.KEY_ADS.isDown() && !ReloadNBT.hasStart(player)) {
             if (!ADSNBT.onADS(player)) {
                 ADSNBT.start(player, Minecraft.getInstance().options.fov);
             }
@@ -34,7 +34,7 @@ public class ClientUtil {
             ADSNBT.end(player);
         }
 
-        if (ModSettings.KEY_RESTORE.isDown()) {
+        if (ModGameSettings.KEY_RESTORE.isDown()) {
             RestoreItem item = (RestoreItem) player.getMainHandItem().getItem();
             if (item.checkUsing(GearItem.get(player), player))
                 RestoreNBT.startWith(player, item.timeToUse);

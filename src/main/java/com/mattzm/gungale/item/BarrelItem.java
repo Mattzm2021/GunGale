@@ -18,7 +18,7 @@ public class BarrelItem extends AttachmentItem {
         this.level = level;
     }
 
-    public int getPrecisionIncrease(@NotNull ItemStack stack) {
+    public int getPrecisionIncrement(@NotNull ItemStack stack) {
         AbstractWeaponItem item = (AbstractWeaponItem) stack.getItem();
         return item.getBarrelIncrementByLevel(this.level);
     }

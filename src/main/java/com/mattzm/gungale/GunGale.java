@@ -18,7 +18,7 @@ public class GunGale {
     public static final String MOD_ID = "gungale";
 
     @SubscribeEvent
-    public static void onCommonSetup(final FMLCommonSetupEvent event) {
+    public static void onCommonSetup(final @NotNull FMLCommonSetupEvent event) {
         event.enqueueWork(MessageHandler::setupAll);
     }
 

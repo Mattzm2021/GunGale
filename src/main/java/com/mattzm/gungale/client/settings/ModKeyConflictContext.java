@@ -2,6 +2,7 @@ package com.mattzm.gungale.client.settings;
 
 import com.mattzm.gungale.entity.player.ModPlayerInventory;
 import com.mattzm.gungale.item.RestoreItem;
+import com.mattzm.gungale.item.weapon.AbstractFlexibleAutoWeaponItem;
 import com.mattzm.gungale.item.weapon.AbstractWeaponItem;
 import com.mattzm.gungale.client.nbt.tick.RestoreNBT;
 import net.minecraft.client.Minecraft;
@@ -131,6 +132,23 @@ public enum ModKeyConflictContext implements IKeyConflictContext {
         @Override
         public boolean isActive() {
             return false;
+        }
+
+        @Override
+        public boolean conflicts(IKeyConflictContext other) {
+            return true;
+        }
+    },
+
+    KEY_SWAP_FIRE_MODE_9 {
+        @Override
+        public boolean isActive() {
+            if (Minecraft.getInstance().player == null) {
+                return false;
+            } else {
+                ItemStack stack = ModPlayerInventory.get(Minecraft.getInstance().player).getSelected();
+                return KeyConflictContext.IN_GAME.isActive() && stack.getItem() instanceof AbstractFlexibleAutoWeaponItem;
+            }
         }
 
         @Override

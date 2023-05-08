@@ -3,7 +3,7 @@ package com.mattzm.gungale.client.object;
 import com.mattzm.gungale.client.gui.ModIngameGui;
 import com.mattzm.gungale.client.renderer.ModFirstPersonRenderer;
 import com.mattzm.gungale.client.renderer.entity.ModPlayerRenderer;
-import com.mattzm.gungale.client.settings.ModSettings;
+import com.mattzm.gungale.client.settings.ModGameSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 public class ClientObjectHolder {
     private static ClientObjectHolder instance;
     private final Minecraft minecraft;
-    private ModSettings mOptions;
+    private ModGameSettings mOptions;
     private ModIngameGui mIngameGui;
     private ModFirstPersonRenderer mItemInHandRenderer;
     private ModPlayerRenderer mPlayerRenderer;
@@ -24,13 +24,13 @@ public class ClientObjectHolder {
     }
 
     public void setup() {
-        this.mOptions = new ModSettings(this.minecraft, this.minecraft.gameDirectory);
+        this.mOptions = new ModGameSettings(this.minecraft, this.minecraft.gameDirectory);
         this.mIngameGui = new ModIngameGui(this.minecraft);
         this.mItemInHandRenderer = new ModFirstPersonRenderer(this.minecraft);
         this.mPlayerRenderer = new ModPlayerRenderer(this.minecraft.getEntityRenderDispatcher());
     }
 
-    public @NotNull ModSettings getMOptions() {
+    public @NotNull ModGameSettings getMOptions() {
         return this.mOptions;
     }
 

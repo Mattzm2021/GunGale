@@ -7,13 +7,13 @@ import com.mattzm.gungale.client.gui.screen.inventory.WeaponBenchScreen;
 import com.mattzm.gungale.inventory.container.ModWorkbenchContainer;
 import com.mattzm.gungale.inventory.container.WeaponBenchContainer;
 import com.mattzm.gungale.item.crafting.ModRecipeTypes;
+import com.mattzm.gungale.util.ErrorUtil;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaRecipeCategoryUid;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.registration.*;
-import mezz.jei.util.ErrorUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.ItemStack;
@@ -40,13 +40,13 @@ public class GunGaleJei implements IModPlugin {
         IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
 
         registration.addRecipeCategories(
-                weaponRecipeCategory = new WeaponRecipeCategory(guiHelper)
+                this.weaponRecipeCategory = new WeaponRecipeCategory(guiHelper)
         );
     }
 
     @Override
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
-        ErrorUtil.checkNotNull(weaponRecipeCategory, "weaponRecipeCategory");
+        ErrorUtil.checkNotNull(this.weaponRecipeCategory, "weaponRecipeCategory");
         ClientWorld world = Minecraft.getInstance().level;
         ErrorUtil.checkNotNull(world, "minecraft world");
         RecipeManager manager = world.getRecipeManager();

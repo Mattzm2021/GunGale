@@ -108,12 +108,9 @@ public class ModPlayerInventory implements INamedContainerProvider, IInventory, 
                 if (!inventory.getItem(i * 6).isEmpty()) {
                     int index = i * 6 + 2;
                     ItemStack stack = inventory.getItem(i * 6);
-                    if (!inventory.getItem(index).isEmpty()) {
-                        MagSizeNBT.set(stack, ((MagItem) inventory.getItem(index).getItem()).getMagazineSize(stack));
-                    } else {
-                        MagSizeNBT.set(stack, ((AbstractWeaponItem) (stack.getItem())).getMagazineSize());
-                    }
-
+                    ItemStack stack1 = inventory.getItem(index);
+                    AbstractWeaponItem item = (AbstractWeaponItem) stack.getItem();
+                    MagSizeNBT.set(stack, item.getMagazineSize() + (stack1.isEmpty() ? 0 : ((MagItem) stack1.getItem()).getMagazineIncrement(stack)));
                     inventory.setItem(i * 6, stack);
                 }
             }

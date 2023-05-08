@@ -14,7 +14,7 @@ public class ModFeatures {
     public static final ConfiguredFeature<?, ?> ORE_SALTPETER = register("ore_saltpeter", Feature.ORE.configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, States.SALTPETER, 9)).range(128).squared().count(30));
     public static final ConfiguredFeature<?, ?> ORE_SULFUR = register("ore_sulfur", Feature.ORE.configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, States.SULFUR, 3)).range(32).squared().count(60));
 
-    public static final class States {
+    private static final class States {
         private static final BlockState SALTPETER = ModBlocks.SALTPETER_ORE.defaultBlockState();
         private static final BlockState SULFUR = ModBlocks.SULFUR_ORE.defaultBlockState();
     }

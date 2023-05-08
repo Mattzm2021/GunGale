@@ -7,11 +7,11 @@ public class BasicProperty {
     public final int magazineSize;
     public final float effectiveRange;
 
-    public BasicProperty(float damage, int rateOfFire, int precision, int ammo, float range) {
-        this.bodyDamage = damage;
+    public BasicProperty(float bodyDamage, int rateOfFire, int precision, int magazineSize, float effectiveRange) {
+        this.bodyDamage = bodyDamage;
         this.rateOfFire = rateOfFire;
         this.precision = precision;
-        this.magazineSize = ammo;
-        this.effectiveRange = range;
+        this.magazineSize = magazineSize;
+        this.effectiveRange = effectiveRange;
     }
 }
