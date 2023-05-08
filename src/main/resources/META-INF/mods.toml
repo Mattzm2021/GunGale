@@ -23,7 +23,7 @@ version="${file.jarVersion}" #mandatory
 # A display name for the mod
 displayName="GunGale" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
-#updateJSONURL="https://change.me.example.invalid/updates.json" #optional
+updateJSONURL="https://raw.githubusercontent.com/Mattzm2021/GunGale/master/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
 displayURL="https://github.com/Mattzm2021/GunGale" #optional
 # A file name (in the root of the mod JAR) containing a logo for display

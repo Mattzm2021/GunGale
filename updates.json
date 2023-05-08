@@ -1,3 +1,10 @@
 {
-
+  "homepage": "https://github.com/Mattzm2021/GunGale/releases",
+  "1.16.5": {
+    "1.1.23": "New start of the mod!"
+  },
+  "promos": {
+    "1.16.5-latest": "1.1.23",
+    "1.16.5-recommended": "1.1.23"
+  }
 }
